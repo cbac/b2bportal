@@ -41,6 +41,13 @@ class Client
      */
     private $location;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="client", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+
     public function __construct()
     {
         $this->evenements = new ArrayCollection();
@@ -118,4 +125,17 @@ class Client
     public function __toString() :string {
         return $this->nom + $this->prenom;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
 }
