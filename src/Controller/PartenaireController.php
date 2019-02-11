@@ -20,6 +20,7 @@ class PartenaireController extends AbstractController
      */
     public function index(PartenaireRepository $partenaireRepository): Response
     {
+        dump($partenaireRepository->findAll());
         return $this->render('partenaire/index.html.twig', [
             'partenaires' => $partenaireRepository->findAll(),
         ]);

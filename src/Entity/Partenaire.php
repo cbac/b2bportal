@@ -18,6 +18,7 @@ class Partenaire extends Client
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TypePrestation", mappedBy="partenaire")
+ //    * @ORM\OneToMany(targetEntity="App\Entity\TypePrestation")
      */
     private $typesPrestation;
 
@@ -120,7 +121,5 @@ class Partenaire extends Client
 
         return $this;
     }
-    public function __toString() :string {
-        return $this->getNom();
-    }
+
 }

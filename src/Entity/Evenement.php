@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EvenementRepository")
  */
@@ -68,7 +69,7 @@ class Evenement
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ? \DateTimeInterface
     {
         return $this->date;
     }

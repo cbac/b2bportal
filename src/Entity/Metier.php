@@ -26,11 +26,11 @@ class Metier
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\TypePrestation")
      */
-    private $prestations;
+    private $typePrestations;
 
     public function __construct()
     {
-        $this->prestations = new ArrayCollection();
+        $this->typePrestations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,24 +53,24 @@ class Metier
     /**
      * @return Collection|TypePrestation[]
      */
-    public function getPrestations(): Collection
+    public function gettypePrestations(): Collection
     {
-        return $this->prestations;
+        return $this->typePrestations;
     }
 
-    public function addPrestation(TypePrestation $prestation): self
+    public function addtypePrestation(TypePrestation $typePrestation): self
     {
-        if (!$this->prestations->contains($prestation)) {
-            $this->prestations[] = $prestation;
+        if (!$this->typePrestations->contains($typePrestation)) {
+            $this->typePrestations[] = $typePrestation;
         }
 
         return $this;
     }
 
-    public function removePrestation(TypePrestation $prestation): self
+    public function removetypePrestation(TypePrestation $typePrestation): self
     {
-        if ($this->prestations->contains($prestation)) {
-            $this->prestations->removeElement($prestation);
+        if ($this->typePrestations->contains($typePrestation)) {
+            $this->typePrestations->removeElement($typePrestation);
         }
 
         return $this;
