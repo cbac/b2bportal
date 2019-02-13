@@ -37,6 +37,8 @@ class PartenaireController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($partenaire->getLocation());
+            $entityManager->persist($partenaire->getUser());
             $entityManager->persist($partenaire);
             $entityManager->flush();
 

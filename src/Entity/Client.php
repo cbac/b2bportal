@@ -34,18 +34,19 @@ class Client
      * @ORM\OneToMany(targetEntity="App\Entity\Evenement", mappedBy="client", orphanRemoval=true)
      */
     private $evenements;
-
+    
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="client", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+    
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Localisation", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $location;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="client", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
 
 
     public function __construct()
