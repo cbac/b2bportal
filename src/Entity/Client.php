@@ -45,7 +45,7 @@ class Client
      * @ORM\OneToOne(targetEntity="App\Entity\Localisation", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $location;
+    private $localisation;
 
 
 
@@ -114,13 +114,13 @@ class Client
         return $this;
     }
 
-    public function getLocation(): ?Localisation
+    public function getLocalisation(): ?Localisation
     {
-        return $this->location;
+        return $this->localisation;
     }
 
-    public function setLocation(Localisation $location): self
-    { $this->location = $location;
+    public function setLocalisation(Localisation $localisation): self
+    { $this->localisation = $localisation;
     return $this;
     }
     public function __toString() :string {

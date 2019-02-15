@@ -14,9 +14,8 @@ class ClientType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
- //           ->add('location')
             ->add('user',UserType::class)
- //           ->add('location',LocalisationType::class,['label' => 'Localisation'])
+            ->add('localisation',LocalisationType::class)
         ;
     }
 
