@@ -9,12 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/partenaire")
  */
 class PartenaireController extends AbstractController
 {
+
     /**
      * @Route("/", name="partenaire_index", methods={"GET"})
      */
@@ -29,7 +31,7 @@ class PartenaireController extends AbstractController
     /**
      * @Route("/new", name="partenaire_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,  UserPasswordEncoderInterface $encoder ): Response
     {
         $partenaire = new Partenaire();
         $form = $this->createForm(PartenaireType::class, $partenaire);
@@ -37,8 +39,15 @@ class PartenaireController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($partenaire->getLocation());
-            $entityManager->persist($partenaire->getUser());
+            $entityManager->persist($partenaire->getLocalisation());
+            //crypt password 
+            $user= $partenaire->getUser();
+            $password = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+            // Set their role
+            $user->setRole('ROLE_USER');
+           
+            $entityManager->persist($user);
             $entityManager->persist($partenaire);
             $entityManager->flush();
 

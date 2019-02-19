@@ -15,7 +15,7 @@ class PartenaireType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('user',UserType::class)
- //           ->add('location',LocalisationType::class,['label' => 'Localisation'])
+            ->add('localisation',LocalisationType::class,['label' => 'Localisation'])
          ;
     }
 
