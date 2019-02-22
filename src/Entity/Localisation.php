@@ -1,15 +1,17 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ *
  * @ORM\Entity(repositoryClass="App\Repository\LocalisationRepository")
  */
 class Localisation
 {
+
     /**
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -17,16 +19,19 @@ class Localisation
     private $id;
 
     /**
+     *
      * @ORM\Column(type="float")
      */
     private $latitude;
 
     /**
+     *
      * @ORM\Column(type="float")
      */
     private $longitude;
 
     /**
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $address;
@@ -68,10 +73,64 @@ class Localisation
     public function setAddress(string $address): self
     {
         $this->address = $address;
-
+        $this->calculateLatLon();
         return $this;
     }
-    public function __toString() : string{
+
+    public function __toString(): string
+    {
         return $this->getAddress();
+    }
+
+    public function calculateLatLon()
+    {
+        $params = array();
+        $options = array();
+        $params['q'] = $this->address;
+        $params['format'] = "json";
+        $params['addressdetails'] = "0";
+        $osmURL = "https://nominatim.openstreetmap.org/search";
+        // call openstreetmap json interface to calculate latitude and longitude
+        $res = $this->curl_get($osmURL, $params, $options);
+        $data = json_decode($res);
+        dump($data);
+        if ($data) {
+            $this->latitude = 0.0 + $data[0]->lat;
+            $this->longitude = 0.0 + $data[0]->lon;
+        } else {
+            $this->latitude = 0.0 ;
+            $this->longitude = 0.0 ;
+        }
+    }
+
+    /**
+     * Send a GET request using cURL
+     *
+     * @param string $url
+     *            to request
+     * @param array $get
+     *            values to send
+     * @param array $options
+     *            for cURL
+     * @return string
+     */
+    private function curl_get($url, array $get = NULL, array $options = array())
+    {
+        $defaults = array(
+            CURLOPT_URL => $url . (strpos($url, '?') === FALSE ? '?' : '') . http_build_query($get),
+            CURLOPT_HEADER => 0,
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_USERAGENT => 'curl',
+            CURLOPT_REFERER => 'ardoisier.int-evry.fr',
+            CURLOPT_TIMEOUT => 4
+        );
+
+        $ch = curl_init();
+        curl_setopt_array($ch, ($options + $defaults));
+        if (! $result = curl_exec($ch)) {
+            trigger_error(curl_error($ch));
+        }
+        curl_close($ch);
+        return $result;
     }
 }

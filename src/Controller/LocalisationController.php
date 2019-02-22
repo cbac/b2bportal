@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\Localisation;
@@ -11,21 +10,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ *
  * @Route("/localisation")
  */
 class LocalisationController extends AbstractController
 {
+
     /**
+     *
      * @Route("/", name="localisation_index", methods={"GET"})
      */
     public function index(LocalisationRepository $localisationRepository): Response
     {
         return $this->render('localisation/index.html.twig', [
-            'localisations' => $localisationRepository->findAll(),
+            'localisations' => $localisationRepository->findAll()
         ]);
     }
 
     /**
+     *
      * @Route("/new", name="localisation_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -36,6 +39,7 @@ class LocalisationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $localisation->calculateLatLon();
             $entityManager->persist($localisation);
             $entityManager->flush();
 
@@ -44,21 +48,23 @@ class LocalisationController extends AbstractController
 
         return $this->render('localisation/new.html.twig', [
             'localisation' => $localisation,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 
     /**
+     *
      * @Route("/{id}", name="localisation_show", methods={"GET"})
      */
     public function show(Localisation $localisation): Response
     {
         return $this->render('localisation/show.html.twig', [
-            'localisation' => $localisation,
+            'localisation' => $localisation
         ]);
     }
 
     /**
+     *
      * @Route("/{id}/edit", name="localisation_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Localisation $localisation): Response
@@ -67,25 +73,29 @@ class LocalisationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $localisation->calculateLatLon();
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
 
             return $this->redirectToRoute('localisation_index', [
-                'id' => $localisation->getId(),
+                'id' => $localisation->getId()
             ]);
         }
 
         return $this->render('localisation/edit.html.twig', [
             'localisation' => $localisation,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 
     /**
+     *
      * @Route("/{id}", name="localisation_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Localisation $localisation): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$localisation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $localisation->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($localisation);
             $entityManager->flush();

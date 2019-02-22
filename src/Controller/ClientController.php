@@ -42,10 +42,12 @@ class ClientController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $user= $client->getUser();
             $password = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
-            
+            $user->setPassword($password);            
             // Set their role
             $user->setRole('ROLE_USER');
+            $entityManager->persist($user);
+            $localisation = $client->getLocalisation();
+            
             $entityManager->persist($client);
             $entityManager->flush();
 
