@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Tests\Fixtures\SingleIntIdNoToStringEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TypeEvenementRepository")
@@ -36,5 +37,9 @@ class TypeEvenement
         $this->nom = $nom;
 
         return $this;
+    }
+    public function __toString(): ? String
+    {
+        return $this->nom;
     }
 }

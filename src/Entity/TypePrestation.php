@@ -83,14 +83,14 @@ class TypePrestation
         return $this;
     }
 
-    public function getPartenaire(): ?Partenaire
+    public function getPartenaires(): ?ArrayCollection
     {
-        return $this->partenaire;
+        return $this->partenaires;
     }
 
-    public function setPartenaire(?Partenaire $partenaire): self
+    public function setPartenaires(?Partenaire $partenaire): self
     {
-        $this->partenaire = $partenaire;
+        $this->partenaire = $partenaires;
 
         return $this;
     }

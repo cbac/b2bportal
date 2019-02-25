@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"client" = "Client", "partenaire" = "Partenaire"})
+ * @ApiResource
  */
 class Client
 {
@@ -123,8 +124,9 @@ class Client
     { $this->localisation = $localisation;
     return $this;
     }
+    
     public function __toString() :string {
-        return $this->nom + $this->prenom;
+        return $this->nom." ".$this->prenom;
     }
 
     public function getUser(): ?User

@@ -15,7 +15,7 @@ class TypePrestationType extends AbstractType
             ->add('nomType')
             ->add('description')
             ->add('tarifPublic')
-            ->add('partenaire')
+            ->add('partenaires')
         ;
     }
 
