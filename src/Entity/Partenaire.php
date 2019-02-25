@@ -17,8 +17,7 @@ class Partenaire extends Client
     private $metiers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TypePrestation", mappedBy="partenaire")
- //    * @ORM\OneToMany(targetEntity="App\Entity\TypePrestation")
+     * @ORM\ManyToMany(targetEntity="App\Entity\TypePrestation", mappedBy="partenaires")
      */
     private $typesPrestation;
 

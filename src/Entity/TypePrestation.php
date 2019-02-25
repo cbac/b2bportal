@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TypePrestationRepository")
@@ -32,10 +33,15 @@ class TypePrestation
     private $tarifPublic;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Partenaire", inversedBy="typesPrestation")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Partenaire", inversedBy="typesPrestation")
      */
-    private $partenaire;
+    private $partenaires;
 
+    public function __construct()
+    {
+        $this->partenaires = new ArrayCollection();
+
+    }
     public function getId(): ?int
     {
         return $this->id;

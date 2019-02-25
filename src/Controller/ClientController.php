@@ -47,7 +47,8 @@ class ClientController extends AbstractController
             $user->setRole('ROLE_USER');
             $entityManager->persist($user);
             $localisation = $client->getLocalisation();
-            
+            $localisation->calculateLatLon();
+            $entityManager->persist($localisation);
             $entityManager->persist($client);
             $entityManager->flush();
 
@@ -81,6 +82,8 @@ class ClientController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $localisation = $client->getLocalisation();
+            $localisation->calculateLatLon();
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('client_index', [

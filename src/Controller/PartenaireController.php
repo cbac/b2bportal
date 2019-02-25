@@ -46,8 +46,9 @@ class PartenaireController extends AbstractController
             $user->setPassword($password);
             // Set their role
             $user->setRole('ROLE_USER');
-           
             $entityManager->persist($user);
+            $localisation = $partenaire->getLocalisation();
+            $localisation->calculateLatLon();
             $entityManager->persist($partenaire);
             $entityManager->flush();
 
@@ -79,6 +80,8 @@ class PartenaireController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $localisation = $partenaire->getLocalisation();
+            $localisation->calculateLatLon();
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('partenaire_index', [
