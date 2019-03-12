@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Metier;
 use App\Entity\Partenaire;
 use App\Form\PartenaireType;
+use App\Entity\TypePrestation;
+use App\Form\TypePrestationType;
 use App\Repository\PartenaireRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -107,5 +110,29 @@ class PartenaireController extends AbstractController
         }
 
         return $this->redirectToRoute('partenaire_index');
+    }
+    /**
+     *
+     * @Route("/{id}/add/typeprestation", name="partenaire_add_typeprestation", methods={"GET","POST"})
+     */
+    public function addTypePrestation(Request $request, Metier $metier): Response
+    {
+        $typePrestation = new TypePrestation();
+        $form = $this->createForm(TypePrestationType::class, $typePrestation);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $metier->addtypePrestation($typePrestation);
+            $entityManager->persist($typePrestation);
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('metier_index');
+        }
+        
+        return $this->render('metier/addTypePrestation.html.twig', [
+            'metier' => $metier,
+            'form' => $form->createView()
+        ]);
     }
 }

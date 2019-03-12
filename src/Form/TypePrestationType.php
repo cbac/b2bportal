@@ -6,6 +6,7 @@ use App\Entity\TypePrestation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class TypePrestationType extends AbstractType
 {
@@ -13,9 +14,9 @@ class TypePrestationType extends AbstractType
     {
         $builder
             ->add('nomType')
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'attr' => ['rows'=>4, 'cols'=>50]])
             ->add('tarifPublic')
-            ->add('partenaires')
         ;
     }
 

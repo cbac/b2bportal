@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Type Prestation{% endblock %}
+
+{% block body %}
+    <h1>Add Type Prestation</h1>
+
+    {{ include('type_prestation/_form.html.twig') }}
+
+    <a href="{{ path('metier_index') }}">back to list</a>
+{% endblock %}

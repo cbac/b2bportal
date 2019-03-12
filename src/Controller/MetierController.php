@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\Metier;
@@ -9,23 +8,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\TypePrestationType;
+use App\Entity\TypePrestation;
 
 /**
+ *
  * @Route("/metier")
  */
 class MetierController extends AbstractController
 {
+
     /**
+     *
      * @Route("/", name="metier_index", methods={"GET"})
      */
     public function index(MetierRepository $metierRepository): Response
     {
         return $this->render('metier/index.html.twig', [
-            'metiers' => $metierRepository->findAll(),
+            'metiers' => $metierRepository->findAll()
         ]);
     }
 
     /**
+     *
      * @Route("/new", name="metier_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -44,21 +49,23 @@ class MetierController extends AbstractController
 
         return $this->render('metier/new.html.twig', [
             'metier' => $metier,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 
     /**
+     *
      * @Route("/{id}", name="metier_show", methods={"GET"})
      */
     public function show(Metier $metier): Response
     {
         return $this->render('metier/show.html.twig', [
-            'metier' => $metier,
+            'metier' => $metier
         ]);
     }
 
     /**
+     *
      * @Route("/{id}/edit", name="metier_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Metier $metier): Response
@@ -67,30 +74,58 @@ class MetierController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
 
             return $this->redirectToRoute('metier_index', [
-                'id' => $metier->getId(),
+                'id' => $metier->getId()
             ]);
         }
 
         return $this->render('metier/edit.html.twig', [
             'metier' => $metier,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 
     /**
+     *
      * @Route("/{id}", name="metier_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Metier $metier): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$metier->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $metier->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($metier);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('metier_index');
+    }
+
+    /**
+     *
+     * @Route("/{id}/add/typeprestation", name="metier_add_typeprestation", methods={"GET","POST"})
+     */
+    public function addTypePrestation(Request $request, Metier $metier): Response
+    {
+        $typePrestation = new TypePrestation();
+        $form = $this->createForm(TypePrestationType::class, $typePrestation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $metier->addtypePrestation($typePrestation);
+            $entityManager->persist($typePrestation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('metier_index');
+        }
+
+        return $this->render('metier/addTypePrestation.html.twig', [
+            'metier' => $metier,
+            'form' => $form->createView()
+        ]);
     }
 }

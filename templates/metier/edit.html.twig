@@ -6,7 +6,35 @@
     <h1>Edit Metier</h1>
 
     {{ include('metier/_form.html.twig', {'button_label': 'Update'}) }}
-
+    <h2>Types de prestations</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>NomType</th>
+            <th>Description</th>
+            <th>TarifPublic</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for type_prestation in metier.typePrestations %}
+        <tr>
+            <td>{{ type_prestation.nomType }}</td>
+            <td>{{ type_prestation.description }}</td>
+            <td>{{ type_prestation.tarifPublic }}</td>
+            <td><a href="{{ path('type_prestation_edit', {'id': type_prestation.id}) }}">edit</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ path('metier_add_typeprestation', {'id': metier.id}) }}">add
+    prestation type</a>
+    <br>
     <a href="{{ path('metier_index') }}">back to list</a>
 
     {{ include('metier/_delete_form.html.twig') }}
