@@ -130,7 +130,7 @@ class PartenaireController extends AbstractController
             return $this->redirectToRoute('metier_index');
         }
         
-        return $this->render('metier/addTypePrestation.html.twig', [
+        return $this->render('partenaire/addTypePrestation.html.twig', [
             'metier' => $metier,
             'form' => $form->createView()
         ]);

@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Metier{% endblock %}
+{% block title %}Ajout d'un type de prestation au Metier{% endblock %}
 
 {% block body %}
-    <h1>Create new Metier</h1>
+    <h1>Ajout d'un type de prestation au Metier</h1>
 
-    {{ include('metier/_form.html.twig') }}
+    {{ include('type_prestation/_form.html.twig') }}
 
     <a href="{{ path('metier_index') }}">back to list</a>
 {% endblock %}

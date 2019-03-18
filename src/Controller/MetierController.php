@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\TypePrestationType;
 use App\Entity\TypePrestation;
+use App\Form\MetierTypePrestationType;
+use App\Entity\MetierTypePrestation;
 
 /**
  *
@@ -110,14 +112,14 @@ class MetierController extends AbstractController
      */
     public function addTypePrestation(Request $request, Metier $metier): Response
     {
-        $typePrestation = new TypePrestation();
-        $form = $this->createForm(TypePrestationType::class, $typePrestation);
+        $typePrestation = new MetierTypePrestation();
+        $typePrestation->setMetier($metier);
+        $form = $this->createForm(MetierTypePrestationType::class, $typePrestation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $metier->addtypePrestation($typePrestation);
-            $entityManager->persist($typePrestation);
             $entityManager->flush();
 
             return $this->redirectToRoute('metier_index');

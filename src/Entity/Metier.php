@@ -26,7 +26,7 @@ class Metier
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\TypePrestation")
      */
-    private $typePrestations;
+    private $typesPrestation;
 
     public function __construct()
     {
@@ -53,15 +53,15 @@ class Metier
     /**
      * @return Collection|TypePrestation[]
      */
-    public function gettypePrestations(): Collection
+    public function gettypesPrestation(): Collection
     {
-        return $this->typePrestations;
+        return $this->typesPrestation;
     }
 
     public function addtypePrestation(TypePrestation $typePrestation): self
     {
-        if (!$this->typePrestations->contains($typePrestation)) {
-            $this->typePrestations[] = $typePrestation;
+        if (!$this->typesPrestation->contains($typePrestation)) {
+            $this->typesPrestation[] = $typePrestation;
         }
 
         return $this;
@@ -69,8 +69,8 @@ class Metier
 
     public function removetypePrestation(TypePrestation $typePrestation): self
     {
-        if ($this->typePrestations->contains($typePrestation)) {
-            $this->typePrestations->removeElement($typePrestation);
+        if ($this->typesPrestation->contains($typePrestation)) {
+            $this->typesPrestation->removeElement($typePrestation);
         }
 
         return $this;

@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 
-
 class MetierTypePrestation
 {
+
+    private $id;
 
     private $metier;
 
@@ -25,6 +26,11 @@ class MetierTypePrestation
     public function getTypePrestation(): ?TypePrestation
     {
         return $this->typePrestation;
+    }
+    public function getNomType(): ?string
+    {
+        if ($this->typePrestation == null ) return null;
+        return $this->typePrestation->getNomType();
     }
     
     public function setTypePrestation(TypePrestation $typePrestation): self
