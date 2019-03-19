@@ -8,11 +8,13 @@ use App\Form\PartenaireType;
 use App\Entity\TypePrestation;
 use App\Form\TypePrestationType;
 use App\Repository\PartenaireRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Form\AddMetierType;
 
 /**
  * @Route("/partenaire")
@@ -25,7 +27,6 @@ class PartenaireController extends AbstractController
      */
     public function index(PartenaireRepository $partenaireRepository): Response
     {
-        dump($partenaireRepository->findAll());
         return $this->render('partenaire/index.html.twig', [
             'partenaires' => $partenaireRepository->findAll(),
         ]);
@@ -69,6 +70,8 @@ class PartenaireController extends AbstractController
      */
     public function show(Partenaire $partenaire): Response
     {
+        dump($partenaire->getMetiers());
+        
         return $this->render('partenaire/show.html.twig', [
             'partenaire' => $partenaire,
         ]);
@@ -131,6 +134,33 @@ class PartenaireController extends AbstractController
         }
         
         return $this->render('partenaire/addTypePrestation.html.twig', [
+            'metier' => $metier,
+            'form' => $form->createView()
+        ]);
+    }
+    /**
+     *
+     * @Route("/{id}/add/metier", name="partenaire_add_metier", methods={"GET","POST"})
+     */
+    public function addMetier(Request $request, Partenaire $partenaire, Metier $metier): Response
+    {
+        $form = $this->createForm(AddMetierType::class, $metier);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            dump($partenaire->getMetiers());
+            
+            $partenaire->addMetier($metier);
+            
+            $entityManager->flush();
+            return $this->show($partenaire);
+            return $this->redirectToRoute('partenaire_show', [
+                'id' => $partenaire->getId(),
+            ]);
+        }
+        
+        return $this->render('partenaire/addMetier.html.twig', [
             'metier' => $metier,
             'form' => $form->createView()
         ]);

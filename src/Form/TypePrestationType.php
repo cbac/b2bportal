@@ -16,7 +16,6 @@ class TypePrestationType extends AbstractType
             ->add('nomType')
             ->add('description', TextareaType::class, [
                 'attr' => ['rows'=>4, 'cols'=>50]])
-            ->add('tarifPublic')
         ;
     }
 

@@ -19,20 +19,26 @@ class Partenaire extends Client
     private $metiers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\TypePrestation", mappedBy="partenaires")
-     */
-    private $typesPrestation;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Prestation", mappedBy="partenaire")
      */
     private $prestations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Catalogue", mappedBy="partenaire", orphanRemoval=true)
+     */
+    private $catalogues;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypeEvenement", inversedBy="partenaire")
+     */
+    private $typeEvenement;
 
     public function __construct()
     {
         $this->metiers = new ArrayCollection();
         $this->typesPrestation = new ArrayCollection();
         $this->prestations = new ArrayCollection();
+        $this->catalogues = new ArrayCollection();
     }
 
     /**
@@ -46,7 +52,7 @@ class Partenaire extends Client
     public function addMetier(Metier $metier): self
     {
         if (!$this->metiers->contains($metier)) {
-            $this->metiers[] = $metier;
+            $this->metiers->add($metier);
         }
 
         return $this;
@@ -72,7 +78,7 @@ class Partenaire extends Client
     public function addTypesPrestation(TypePrestation $typesPrestation): self
     {
         if (!$this->typesPrestation->contains($typesPrestation)) {
-            $this->typesPrestation[] = $typesPrestation;
+            $this->typesPrestation->add($typesPrestation);
             $typesPrestation->setPartenaire($this);
         }
 
@@ -103,7 +109,7 @@ class Partenaire extends Client
     public function addPrestation(Prestation $prestation): self
     {
         if (!$this->prestations->contains($prestation)) {
-            $this->prestations[] = $prestation;
+            $this->prestations->add($prestation);
             $prestation->setPartenaire($this);
         }
 
@@ -119,6 +125,49 @@ class Partenaire extends Client
                 $prestation->setPartenaire(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Catalogue[]
+     */
+    public function getCatalogues(): Collection
+    {
+        return $this->catalogues;
+    }
+
+    public function addCatalogue(Catalogue $catalogue): self
+    {
+        if (!$this->catalogues->contains($catalogue)) {
+            $this->catalogues[] = $catalogue;
+            $catalogue->setPartenaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCatalogue(Catalogue $catalogue): self
+    {
+        if ($this->catalogues->contains($catalogue)) {
+            $this->catalogues->removeElement($catalogue);
+            // set the owning side to null (unless already changed)
+            if ($catalogue->getPartenaire() === $this) {
+                $catalogue->setPartenaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTypeEvenement(): ?TypeEvenement
+    {
+        return $this->typeEvenement;
+    }
+
+    public function setTypeEvenement(?TypeEvenement $typeEvenement): self
+    {
+        $this->typeEvenement = $typeEvenement;
 
         return $this;
     }

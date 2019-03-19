@@ -63,6 +63,11 @@ class Prestation
      */
     private $partenaire;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Catalogue", inversedBy="prestations")
+     */
+    private $catalogue;
+
     public function __construct()
     {
         $this->sousPrestations = new ArrayCollection();
@@ -190,5 +195,17 @@ class Prestation
     public function __toString() :string {
         return $this->typePrestation->__toString() + " pour " 
             + $this->evenement->__toString();
+    }
+
+    public function getCatalogue(): ?Catalogue
+    {
+        return $this->catalogue;
+    }
+
+    public function setCatalogue(?Catalogue $catalogue): self
+    {
+        $this->catalogue = $catalogue;
+
+        return $this;
     }
 }

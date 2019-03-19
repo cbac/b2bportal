@@ -12,7 +12,6 @@
         <tr>
             <th>NomType</th>
             <th>Description</th>
-            <th>TarifPublic</th>
             <th>actions</th>
         </tr>
     </thead>
@@ -21,7 +20,6 @@
         <tr>
             <td>{{ type_prestation.nomType }}</td>
             <td>{{ type_prestation.description }}</td>
-            <td>{{ type_prestation.tarifPublic }}</td>
             <td><a href="{{ path('type_prestation_edit', {'id': type_prestation.id}) }}">edit</a>
             </td>
         </tr>

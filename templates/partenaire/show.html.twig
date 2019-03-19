@@ -4,26 +4,46 @@
 
 {% block body %}
     <h1>Partenaire {{ partenaire.nom }} {{ partenaire.prenom }}</h1>
-<h2>Types de prestations</h2>
+    <h2>Liste des metiers</h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Nom metier</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for metier in partenaire.metiers %}
+        <tr>
+            <td>{{ metier.nom }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td>no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <a href="{{ path('partenaire_add_metier', {'id': partenaire.id}) }}">add metier</a>
+</table>
+<h2>Catalogue de prestations</h2>
 <table class="table">
     <thead>
         <tr>
-            <th>NomType</th>
+            <th>Type prestation</th>
             <th>Description</th>
             <th>TarifPublic</th>
             <th>actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for type_prestation in partenaire.typesPrestation %}
+        {% for cat_entry in partenaire.catalogues %}
         <tr>
-            <td>{{ type_prestation.nomType }}</td>
-            <td>{{ type_prestation.description }}</td>
-            <td>{{ type_prestation.tarifPublic }}</td>
+            <td>{{ cat_entry.typePrestation.nomType }}</td>
+            <td>{{ cat_entry.typePrestation.description }}</td>
+            <td>{{ cat_entry.tarifPublic }}</td>
             <td><a
-                href="{{ path('type_prestation_show', {'id': type_prestation.id}) }}">show</a>
+                href="{{ path('catalogue_show', {'id': cat_entry.id}) }}">show</a>
                 <a
-                href="{{ path('type_prestation_edit', {'id': type_prestation.id}) }}">edit</a>
+                href="{{ path('catalogue_edit', {'id': cat_entry.id}) }}">edit</a>
             </td>
         </tr>
         {% else %}
@@ -37,5 +57,4 @@
 
     <a href="{{ path('partenaire_edit', {'id': partenaire.id}) }}">edit</a>
 
-    {{ include('partenaire/_delete_form.html.twig') }}
 {% endblock %}

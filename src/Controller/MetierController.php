@@ -110,16 +110,18 @@ class MetierController extends AbstractController
      *
      * @Route("/{id}/add/typeprestation", name="metier_add_typeprestation", methods={"GET","POST"})
      */
-    public function addTypePrestation(Request $request, Metier $metier): Response
+    public function addTypePrestation(Request $request, Metier $metier, TypePrestation $typePrestation): Response
     {
-        $typePrestation = new MetierTypePrestation();
-        $typePrestation->setMetier($metier);
-        $form = $this->createForm(MetierTypePrestationType::class, $typePrestation);
+        $metierTypePrestation = new MetierTypePrestation();
+        $metierTypePrestation->setMetier($metier);
+        $metierTypePrestation->setTypePrestation($typePrestation);
+        $form = $this->createForm(MetierTypePrestationType::class, $metierTypePrestation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $metier->addtypePrestation($typePrestation);
+            $entityManager->persist($metier);
             $entityManager->flush();
 
             return $this->redirectToRoute('metier_index');

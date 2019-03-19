@@ -15,7 +15,7 @@ class ClientType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('user',UserType::class)
-            ->add('localisation',LocalisationType::class)
+            ->add('localisation', LocalisationType::class)
         ;
     }
 

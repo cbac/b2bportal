@@ -32,7 +32,11 @@ class MetierTypePrestation
         if ($this->typePrestation == null ) return null;
         return $this->typePrestation->getNomType();
     }
-    
+    public function setNomType(String $nomType): ?bool
+    {
+        if ($this->typePrestation == null ) return true;
+        return $this->typePrestation->getNomType() == $nomType;
+    }
     public function setTypePrestation(TypePrestation $typePrestation): self
     {
         $this->typePrestation = $typePrestation;

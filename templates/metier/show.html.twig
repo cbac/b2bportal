@@ -15,7 +15,6 @@ Metier
 		<tr>
 			<th>NomType</th>
 			<th>Description</th>
-			<th>TarifPublic</th>
 			<th>actions</th>
 		</tr>
 	</thead>
@@ -24,7 +23,6 @@ Metier
 		<tr>
 			<td>{{ type_prestation.nomType }}</td>
 			<td>{{ type_prestation.description }}</td>
-			<td>{{ type_prestation.tarifPublic }}</td>
 			<td><a
 				href="{{ path('type_prestation_show', {'id': type_prestation.id}) }}">show</a>
 				<a

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Metier{% endblock %}
+
+{% block body %}
+    <h1>Add Metier </h1>
+
+    {{ include('metier/_form.html.twig') }}
+    <a href="{{ path('partenaire_index') }}">back to list</a>
+{% endblock %}

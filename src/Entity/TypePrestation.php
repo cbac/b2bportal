@@ -28,19 +28,21 @@ class TypePrestation
     private $description;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Catalogue", inversedBy="typesPrestation")
      */
-    private $tarifPublic;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Partenaire", inversedBy="typesPrestation")
-     */
-    private $partenaires;
+    private $catalogues;
 
     public function __construct()
     {
-        $this->partenaires = new ArrayCollection();
-
+        $this->initDatas();
+    }
+    public function __clone()
+    {
+        $this->initDatas();
+    }
+    private function initDatas(){
+        $this->catalogues = new ArrayCollection();
+        $this->id = null;
     }
     public function getId(): ?int
     {
@@ -71,26 +73,14 @@ class TypePrestation
         return $this;
     }
 
-    public function getTarifPublic(): ?float
+    public function getCatalogues(): ?ArrayCollection
     {
-        return $this->tarifPublic;
+        return $this->catalogues;
     }
 
-    public function setTarifPublic(float $tarifPublic): self
+    public function addToCatalogues(?Catalogue $catalogue): self
     {
-        $this->tarifPublic = $tarifPublic;
-
-        return $this;
-    }
-
-    public function getPartenaires(): ?ArrayCollection
-    {
-        return $this->partenaires;
-    }
-
-    public function setPartenaires(?Partenaire $partenaire): self
-    {
-        $this->partenaire = $partenaires;
+        $this->catalogues->add($catalogue);
 
         return $this;
     }
