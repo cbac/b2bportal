@@ -12,7 +12,9 @@ class EvenementTest  extends TestCase
         $typeEvt->setNom('test');
         $evt = new Evenement();
         $evt->setNom('Evenement');
-        $this->assertEquals("Evenement",$typeEvt->getNom());
+        // check setNom getNom ok 
+        $this->assertEquals("Evenement",$evt->getNom());
+        // check setType getType ok
         $evt->setType($typeEvt);
         $this->assertEquals($typeEvt, $evt->getType());
     }

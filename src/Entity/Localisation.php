@@ -93,7 +93,7 @@ class Localisation
         // call openstreetmap json interface to calculate latitude and longitude
         $res = $this->curl_get($osmURL, $params, $options);
         $data = json_decode($res);
-        dump($data);
+      //  dump($data);
         if ($data) {
             $this->latitude = 0.0 + $data[0]->lat;
             $this->longitude = 0.0 + $data[0]->lon;

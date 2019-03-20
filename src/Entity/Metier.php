@@ -30,7 +30,7 @@ class Metier
 
     public function __construct()
     {
-        $this->typePrestations = new ArrayCollection();
+        $this->typesPrestation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,7 +53,7 @@ class Metier
     /**
      * @return Collection|TypePrestation[]
      */
-    public function gettypesPrestation(): Collection
+    public function gettypesPrestation(): ?Collection
     {
         return $this->typesPrestation;
     }

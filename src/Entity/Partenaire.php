@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Prestation;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PartenaireRepository")
@@ -31,12 +32,12 @@ class Partenaire extends Client
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TypeEvenement", inversedBy="partenaire")
      */
-    private $typeEvenement;
+    private $typeEvenements;
 
     public function __construct()
     {
         $this->metiers = new ArrayCollection();
-        $this->typesPrestation = new ArrayCollection();
+        $this->typeEvenements = new ArrayCollection();
         $this->prestations = new ArrayCollection();
         $this->catalogues = new ArrayCollection();
     }
@@ -62,37 +63,6 @@ class Partenaire extends Client
     {
         if ($this->metiers->contains($metier)) {
             $this->metiers->removeElement($metier);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|TypePrestation[]
-     */
-    public function getTypesPrestation(): Collection
-    {
-        return $this->typesPrestation;
-    }
-
-    public function addTypesPrestation(TypePrestation $typesPrestation): self
-    {
-        if (!$this->typesPrestation->contains($typesPrestation)) {
-            $this->typesPrestation->add($typesPrestation);
-            $typesPrestation->setPartenaire($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTypesPrestation(TypePrestation $typesPrestation): self
-    {
-        if ($this->typesPrestation->contains($typesPrestation)) {
-            $this->typesPrestation->removeElement($typesPrestation);
-            // set the owning side to null (unless already changed)
-            if ($typesPrestation->getPartenaire() === $this) {
-                $typesPrestation->setPartenaire(null);
-            }
         }
 
         return $this;
@@ -160,16 +130,26 @@ class Partenaire extends Client
         return $this;
     }
 
-    public function getTypeEvenement(): ?TypeEvenement
+    public function getTypeEvenements(): ?Collection
     {
-        return $this->typeEvenement;
+        return $this->typeEvenements;
     }
 
-    public function setTypeEvenement(?TypeEvenement $typeEvenement): self
+    public function addTypeEvenement(TypeEvenement $typeEvenement): self
     {
-        $this->typeEvenement = $typeEvenement;
-
+        if (!$this->typeEvenements->contains($typeEvenement)) {
+            $this->typeEvenements->add($typeEvenement);
+        }
+        
         return $this;
     }
-
+    
+    public function removeTypeEvenement(TypeEvenement $typeEvenement): self
+    {
+        if ($this->typeEvenements->contains($typeEvenement)) {
+            $this->typeEvenements->removeElement($typeEvenement);
+        }
+        
+        return $this;
+    }
 }
