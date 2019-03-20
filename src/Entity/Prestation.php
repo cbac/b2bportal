@@ -75,6 +75,7 @@ class Prestation
     {
         $this->sousPrestations = new ArrayCollection();
         $this->parent = null;
+        $this->etat = new Etat();
     }
 
     public function getId(): ?int
@@ -194,7 +195,7 @@ class Prestation
         return $this;
     }
 
-    public function __toString(): string
+    public function __toString(): ?string
     {
         if(isset($this->catalogue) && isset($this->evenement)){
             $myTypePrestation = $this->catalogue->getTypePrestation();
@@ -213,6 +214,9 @@ class Prestation
     public function setCatalogue(?Catalogue $catalogue): self
     {
         $this->catalogue = $catalogue;
+        if(isset($catalogue)){
+            $this->partenaire = $catalogue->getPartenaire();
+        }
 
         return $this;
     }
