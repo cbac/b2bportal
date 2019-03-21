@@ -123,8 +123,8 @@ class MetierController extends AbstractController
             $metier->addtypePrestation($typePrestation);
             $entityManager->persist($metier);
             $entityManager->flush();
-
-            return $this->redirectToRoute('metier_index');
+return $this->show($metier);
+            // return $this->redirectToRoute('metier_index');
         }
 
         return $this->render('metier/addTypePrestation.html.twig', [

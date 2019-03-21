@@ -179,7 +179,7 @@ class Prestation
     public function setEvenement(?Evenement $evenement): self
     {
         $this->evenement = $evenement;
-
+        $this->dateDebut = $evenement->getDate();
         return $this;
     }
 

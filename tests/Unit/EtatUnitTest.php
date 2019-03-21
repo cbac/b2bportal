@@ -13,21 +13,21 @@ class TodoUnitTest extends TestCase
         $etat = new Etat();
          
         // assert that your calculator added the numbers correctly!
-        $this->assertEquals("new", $etat->getCurrent());
+        $this->assertEquals(Etat::created, $etat->getCurrent());
         $etat->next();
-        $this->assertEquals("devis demandé", $etat->getCurrent());
+        $this->assertEquals(Etat::estimated, $etat->getCurrent());
         $etat->next();
-        $this->assertEquals("devis accepté", $etat->getCurrent()); 
+        $this->assertEquals(Etat::accepted, $etat->getCurrent()); 
         $etat->next();
-        $this->assertEquals("en cours de réalisation", $etat->getCurrent());
+        $this->assertEquals(Etat::started, $etat->getCurrent());
         $etat->next();
-        $this->assertEquals("terminé", $etat->getCurrent());
+        $this->assertEquals(Etat::finished, $etat->getCurrent());
         $etat->next();
-        $this->assertEquals("facturé", $etat->getCurrent());
+        $this->assertEquals(Etat::invoiced, $etat->getCurrent());
         $etat->next();
-        $this->assertEquals("payé", $etat->getCurrent());
+        $this->assertEquals(Etat::paid, $etat->getCurrent());
         $etat->next();
-        $this->assertEquals("fermé", $etat->getCurrent());
+        $this->assertEquals(Etat::closed, $etat->getCurrent());
         
     }
 }

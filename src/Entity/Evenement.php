@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Prestation;
+use App\Entity\Prestation;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EvenementRepository")
- * @ApiResource
+ *
  */
 class Evenement
 {
