@@ -4,7 +4,28 @@
 
 {% block body %}
     <h1>Add Metier </h1>
-
+    <h2>Partenaire {{ partenaire.nom }} {{ partenaire.prenom }}</h2>
+    <h2>Liste des metiers</h2>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Nom metier</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for metier in partenaire.metiers %}
+        <tr>
+            <td>{{ metier.nom }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td>no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <p>
+    </table>
     {{ include('metier/_form.html.twig') }}
     <a href="{{ path('partenaire_index') }}">back to list</a>
+    </p>
 {% endblock %}

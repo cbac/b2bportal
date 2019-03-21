@@ -53,6 +53,8 @@
         {% endfor %}
     </tbody>
 </table>
+    <a href="{{ path('partenaire_add_catalogue', {'id': partenaire.id}) }}">add catalogue</a>
+
     <a href="{{ path('partenaire_index') }}">back to list</a>
 
     <a href="{{ path('partenaire_edit', {'id': partenaire.id}) }}">edit</a>

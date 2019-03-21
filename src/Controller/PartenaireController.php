@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Metier;
 use App\Entity\Partenaire;
+use App\Form\CatalogueType;
 use App\Form\PartenaireType;
 use App\Entity\TypePrestation;
 use App\Form\TypePrestationType;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Form\AddMetierType;
+use App\Entity\Catalogue;
 
 /**
  * @Route("/partenaire")
@@ -116,25 +118,26 @@ class PartenaireController extends AbstractController
     }
     /**
      *
-     * @Route("/{id}/add/typeprestation", name="partenaire_add_typeprestation", methods={"GET","POST"})
+     * @Route("/{id}/add/catalogue", name="partenaire_add_catalogue", methods={"GET","POST"})
      */
-    public function addTypePrestation(Request $request, Metier $metier): Response
+    public function addCatalogue(Request $request, Partenaire $partenaire): Response
     {
-        $typePrestation = new TypePrestation();
-        $form = $this->createForm(TypePrestationType::class, $typePrestation);
+        $catalogue = new Catalogue();
+        $form = $this->createForm(CatalogueType::class, $catalogue);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $metier->addtypePrestation($typePrestation);
-            $entityManager->persist($typePrestation);
+            $partenaire->addCatalogue($catalogue);
+            $entityManager->persist($catalogue);
+            $entityManager->persist($partenaire);
             $entityManager->flush();
-            
-            return $this->redirectToRoute('metier_index');
+            return $this->show($partenaire);
+       //     return $this->redirectToRoute('metier_index');
         }
         
-        return $this->render('partenaire/addTypePrestation.html.twig', [
-            'metier' => $metier,
+        return $this->render('partenaire/addCatalogue.html.twig', [
+            'partenaire' => $partenaire,
             'form' => $form->createView()
         ]);
     }
@@ -146,13 +149,13 @@ class PartenaireController extends AbstractController
     {
         $form = $this->createForm(AddMetierType::class, $metier);
         $form->handleRequest($request);
+        dump($partenaire->getMetiers()->first());
         
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            dump($partenaire->getMetiers());
             
             $partenaire->addMetier($metier);
-            
+            $entityManager->persist($partenaire);
             $entityManager->flush();
             return $this->show($partenaire);
             return $this->redirectToRoute('partenaire_show', [
@@ -161,6 +164,7 @@ class PartenaireController extends AbstractController
         }
         
         return $this->render('partenaire/addMetier.html.twig', [
+            'partenaire' => $partenaire,
             'metier' => $metier,
             'form' => $form->createView()
         ]);

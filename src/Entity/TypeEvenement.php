@@ -31,13 +31,13 @@ class TypeEvenement
     private $typePrestation;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Partenaire", mappedBy="typeEvenement")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Partenaire", mappedBy="typeEvenements")
      */
-    private $partenaire;
+    private $partenaires;
 
     public function __construct()
     {
-        $this->partenaire = new ArrayCollection();
+        $this->partenaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,15 +76,15 @@ class TypeEvenement
     /**
      * @return Collection|Partenaire[]
      */
-    public function getPartenaire(): Collection
+    public function getPartenaires(): Collection
     {
-        return $this->partenaire;
+        return $this->partenaires;
     }
 
     public function addPartenaire(Partenaire $partenaire): self
     {
-        if (!$this->partenaire->contains($partenaire)) {
-            $this->partenaire[] = $partenaire;
+        if (!$this->partenaires->contains($partenaire)) {
+            $this->partenaires[] = $partenaire;
             $partenaire->setTypeEvenement($this);
         }
 
@@ -93,8 +93,8 @@ class TypeEvenement
 
     public function removePartenaire(Partenaire $partenaire): self
     {
-        if ($this->partenaire->contains($partenaire)) {
-            $this->partenaire->removeElement($partenaire);
+        if ($this->partenaires->contains($partenaire)) {
+            $this->partenaires->removeElement($partenaire);
             // set the owning side to null (unless already changed)
             if ($partenaire->getTypeEvenement() === $this) {
                 $partenaire->setTypeEvenement(null);

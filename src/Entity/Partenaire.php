@@ -10,7 +10,7 @@ use App\Entity\Prestation;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PartenaireRepository")
- * @ApiResource
+ * 
  */
 class Partenaire extends Client
 {
@@ -30,7 +30,7 @@ class Partenaire extends Client
     private $catalogues;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TypeEvenement", inversedBy="partenaire")
+     * @ORM\ManyToMany(targetEntity="App\Entity\TypeEvenement", inversedBy="partenaires")
      */
     private $typeEvenements;
 
@@ -54,8 +54,12 @@ class Partenaire extends Client
     {
         if (!$this->metiers->contains($metier)) {
             $this->metiers->add($metier);
+            foreach($metier->gettypesPrestation() as $typePrestation){
+                $catEntry = new Catalogue();
+                $catEntry->setTypePrestation($typePrestation);
+                $this->addCatalogue($catEntry);
+            }
         }
-
         return $this;
     }
 

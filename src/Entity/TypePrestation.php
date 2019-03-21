@@ -28,7 +28,7 @@ class TypePrestation
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Catalogue", inversedBy="typesPrestation")
+     * @ORM\OneToMany(targetEntity="App\Entity\Catalogue", mappedBy="typePrestation")
      */
     private $catalogues;
 

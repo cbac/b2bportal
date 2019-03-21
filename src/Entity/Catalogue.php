@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -9,12 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Prestation;
 
 /**
+ *
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\CatalogueRepository")
  */
 class Catalogue
 {
+
     /**
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -22,23 +24,27 @@ class Catalogue
     private $id;
 
     /**
+     *
      * @ORM\Column(type="float", nullable=true)
      */
     private $tarifPublic;
 
     /**
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Partenaire", inversedBy="catalogues")
      * @ORM\JoinColumn(nullable=false)
      */
     private $partenaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TypePrestation")
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypePrestation",inversedBy="catalogues")
      * @ORM\JoinColumn(nullable=false)
      */
     private $typePrestation;
 
     /**
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Prestation", mappedBy="catalogue")
      */
     private $prestations;
@@ -76,6 +82,17 @@ class Catalogue
 
         return $this;
     }
+/**
+ * relay method for twig access to TypePrestation fields
+ * @return string|NULL
+ */
+    public function getNomType()
+    {
+        if (isset($this->typePrestation)) {
+            return $this->typePrestation->getNomType();
+        }
+        return null;
+    }
 
     public function getTypePrestation(): ?TypePrestation
     {
@@ -90,6 +107,7 @@ class Catalogue
     }
 
     /**
+     *
      * @return Collection|Prestation[]
      */
     public function getPrestations(): Collection
@@ -99,7 +117,7 @@ class Catalogue
 
     public function addPrestation(Prestation $prestation): self
     {
-        if (!$this->prestations->contains($prestation)) {
+        if (! $this->prestations->contains($prestation)) {
             $this->prestations[] = $prestation;
             $prestation->setCatalogue($this);
         }
