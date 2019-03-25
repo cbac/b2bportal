@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Prestation;
 
 /**
@@ -20,7 +19,7 @@ class Partenaire extends Client
     private $metiers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Prestation", mappedBy="partenaire")
+     * @ORM\OneToMany(targetEntity="App\Entity\Prestation", mappedBy="partenaire", orphanRemoval=true)
      */
     private $prestations;
 

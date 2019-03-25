@@ -2,9 +2,9 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Etat;
+use Doctrine\Common\Collections\Collection;
 
 /**
  *
@@ -83,12 +83,12 @@ class Prestation
         return $this->id;
     }
 
-    public function getDateDebut(): ?\DateTimeInterface
+    public function getDateDebut(): ? \DateTime
     {
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    public function setDateDebut(\DateTime $dateDebut): self
     {
         $this->dateDebut = $dateDebut;
 
@@ -103,12 +103,12 @@ class Prestation
         return null;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    public function getDateFin(): ?\DateTime
     {
         return $this->dateFin;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): self
+    public function setDateFin(?\DateTime $dateFin): self
     {
         $this->dateFin = $dateFin;
 
@@ -194,7 +194,19 @@ class Prestation
 
         return $this;
     }
-
+    public function getCatalogue(): ?Catalogue
+    {
+        return $this->catalogue;
+    }
+    public function setCatalogue(?Catalogue $catalogue): self
+    {
+        $this->catalogue = $catalogue;
+        if(isset($catalogue)){
+            $this->partenaire = $catalogue->getPartenaire();
+        }
+        
+        return $this;
+    }
     public function __toString(): ?string
     {
         if(isset($this->catalogue) && isset($this->evenement)){
@@ -206,18 +218,4 @@ class Prestation
         return null;
     }
 
-    public function getCatalogue(): ?Catalogue
-    {
-        return $this->catalogue;
-    }
-
-    public function setCatalogue(?Catalogue $catalogue): self
-    {
-        $this->catalogue = $catalogue;
-        if(isset($catalogue)){
-            $this->partenaire = $catalogue->getPartenaire();
-        }
-
-        return $this;
-    }
 }

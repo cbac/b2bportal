@@ -3,12 +3,10 @@ namespace tests\Unit;
 use PHPUnit\Framework\TestCase;
 use App\Entity\Partenaire;
 use App\Entity\TypePrestation;
-use App\Entity\Metier;
 use App\Entity\Etat;
 use App\Entity\Prestation;
 use App\Entity\Evenement;
 use App\Entity\Catalogue;
-use App\Entity\TypeEvenement;
 
 
 class PrestationTest  extends TestCase

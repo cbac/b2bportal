@@ -23,10 +23,8 @@ Metier
 		<tr>
 			<td>{{ type_prestation.nomType }}</td>
 			<td>{{ type_prestation.description }}</td>
-			<td><a
-				href="{{ path('type_prestation_show', {'id': type_prestation.id}) }}">show</a>
-				<a
-				href="{{ path('type_prestation_edit', {'id': type_prestation.id}) }}">edit</a>
+			<td>
+			{{ include('metier/_delete_typeprestation_form.html.twig') }}
 			</td>
 		</tr>
 		{% else %}
@@ -36,12 +34,10 @@ Metier
 		{% endfor %}
 	</tbody>
 </table>
+<a href="{{ path('metier_add_typeprestation', {'id': metier.id}) }}">add
+    prestation type</a>
+<a href="{{ path('metier_edit', {'id': metier.id}) }}">edit</a>
 
 <a href="{{ path('metier_index') }}">back to list</a>
-
-<a href="{{ path('metier_edit', {'id': metier.id}) }}">edit</a>
-<a href="{{ path('metier_add_typeprestation', {'id': metier.id}) }}">add
-	prestation type</a>
-
 {{ include('metier/_delete_form.html.twig') }}
 {% endblock %}

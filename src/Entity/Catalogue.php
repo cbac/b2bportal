@@ -83,7 +83,7 @@ class Catalogue
         return $this;
     }
 /**
- * relay method for twig access to TypePrestation fields
+ * relay method for twig access to TypePrestation field
  * @return string|NULL
  */
     public function getNomType()

@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Repository\MetierRepository;
+use App\Repository\TypePrestationRepository;
+
 
 class MetierTypePrestation
 {
@@ -11,7 +14,12 @@ class MetierTypePrestation
     private $metier;
 
     private $typePrestation;
+    private $typePrestationRepository;
 
+    public function __construct(TypePrestationRepository $typePrestationRepository)
+    {
+        $this->typePrestationRepository = $typePrestationRepository;
+    }
     public function getMetier(): ?Metier
     {
         return $this->metier;
@@ -32,10 +40,12 @@ class MetierTypePrestation
         if ($this->typePrestation == null ) return null;
         return $this->typePrestation->getNomType();
     }
-    public function setNomType(String $nomType): ?bool
+    public function setNomType(string $nomType): ?TypePrestation
     {
-        if ($this->typePrestation == null ) return true;
-        return $this->typePrestation->getNomType() == $nomType;
+        $typePrestation = $this->typePrestationRepository->findOneByNomType($nomType);
+        if ($typePrestation == null ) return null;
+        $this->typePrestation = $typePrestation;
+        return $this->typePrestation;
     }
     public function setTypePrestation(TypePrestation $typePrestation): self
     {
