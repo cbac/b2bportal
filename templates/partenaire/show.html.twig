@@ -41,8 +41,7 @@
         {% endfor %}
     </tbody>
 </table>
-    <a href="{{ path('partenaire_index') }}">back to list</a>
-
-    <a href="{{ path('partenaire_edit', {'id': partenaire.id}) }}">edit</a>
-
+   {{ include('partenaire/_edit_button.html.twig') }}
+   <br>
+    {{ include('partenaire/_back_to_list_button.html.twig') }}
 {% endblock %}

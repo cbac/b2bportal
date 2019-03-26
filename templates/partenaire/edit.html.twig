@@ -27,7 +27,7 @@
         </tr>
         {% endfor %}
     </tbody>
-    <a href="{{ path('partenaire_add_metier', {'id': partenaire.id}) }}">add metier</a>
+    {{ include('partenaire/_add_metier_button.html.twig') }}
 </table>
 <h2>Catalogue de prestations</h2>
 <table class="table">
@@ -41,13 +41,13 @@
     </thead>
     <tbody>
         {% for cat_entry in partenaire.catalogues %}
+        {% set catalogue = cat_entry %}
         <tr>
             <td>{{ cat_entry.typePrestation.nomType }}</td>
             <td>{{ cat_entry.typePrestation.description }}</td>
             <td>{{ cat_entry.tarifPublic }}</td>
             <td>{{ include('partenaire/_delete_catalogue_form.html.twig') }}
-                <a
-                href="{{ path('catalogue_edit', {'id': cat_entry.id}) }}">edit</a>
+                {{  include('catalogue/_edit_button.html.twig') }}
             </td>
         </tr>
         {% else %}
@@ -57,9 +57,11 @@
         {% endfor %}
     </tbody>
 </table>
-<a href="{{ path('partenaire_add_catalogue', {'id': partenaire.id}) }}">add
-    prestation type</a>
-    <a href="{{ path('partenaire_index') }}">back to list</a>
+{{ include('partenaire/_add_catalogue_button.html.twig') }}
+<br>
+        {{ include('partenaire/_delete_form.html.twig') }}
+        <br>
+    {{ include('partenaire/_back_to_list_button.html.twig') }}
 
-    {{ include('partenaire/_delete_form.html.twig') }}
+
 {% endblock %}

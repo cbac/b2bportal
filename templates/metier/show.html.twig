@@ -31,6 +31,6 @@ Metier
 	</tbody>
 </table>
 
-<a href="{{ path('metier_edit', {'id': metier.id}) }}">edit</a>
-<a href="{{ path('metier_index') }}">back to list</a>
+{{ include('metier/_edit_button.html.twig') }}
+{{ include('metier/_back_to_list_button.html.twig') }}
 {% endblock %}

@@ -23,9 +23,11 @@
         </tr>
         {% endfor %}
     </tbody>
-    <p>
+
     </table>
+        <p>
     {{ include('metier/_form.html.twig') }}
-    <a href="{{ path('partenaire_show', {'id': partenaire.id}) }}">back to show</a>
+    <br>
+    {{ include('catalogue/_show_button.html.twig') }}
     </p>
 {% endblock %}
