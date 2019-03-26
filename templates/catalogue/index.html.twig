@@ -8,7 +8,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Partenaire</th>
+                <th>Type de Prestation</th>
                 <th>TarifPublic</th>
                 <th>actions</th>
             </tr>
@@ -16,10 +17,10 @@
         <tbody>
         {% for catalogue in catalogues %}
             <tr>
-                <td>{{ catalogue.id }}</td>
+                <td>{{ catalogue.partenaire }}</td>
+                <td>{{ catalogue.typePrestation }}</td>
                 <td>{{ catalogue.tarifPublic }}</td>
                 <td>
-                    <a href="{{ path('catalogue_show', {'id': catalogue.id}) }}">show</a>
                     <a href="{{ path('catalogue_edit', {'id': catalogue.id}) }}">edit</a>
                 </td>
             </tr>

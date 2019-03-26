@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Metier;
 use App\Entity\Partenaire;
+use App\Form\Catalogue1Type;
 use App\Form\CatalogueType;
 use App\Form\PartenaireType;
 use App\Entity\TypePrestation;
 use App\Form\TypePrestationType;
 use App\Repository\PartenaireRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Form\AddMetierType;
 use App\Entity\Catalogue;
+use App\Repository\MetierRepository;
+use App\Entity\PartenaireMetier;
 
 /**
  * @Route("/partenaire")
@@ -71,9 +75,7 @@ class PartenaireController extends AbstractController
      * @Route("/{id}", name="partenaire_show", methods={"GET"})
      */
     public function show(Partenaire $partenaire): Response
-    {
-        dump($partenaire->getMetiers());
-        
+    {        
         return $this->render('partenaire/show.html.twig', [
             'partenaire' => $partenaire,
         ]);
@@ -145,16 +147,17 @@ class PartenaireController extends AbstractController
      *
      * @Route("/{id}/add/metier", name="partenaire_add_metier", methods={"GET","POST"})
      */
-    public function addMetier(Request $request, Partenaire $partenaire, Metier $metier): Response
+    public function addMetier(Request $request, Partenaire $partenaire, MetierRepository $metierRepository): Response
     {
-        $form = $this->createForm(AddMetierType::class, $metier);
+        $partenaireMetier = new PartenaireMetier($metierRepository);
+        $partenaireMetier->setPartenaire($partenaire);
+        $form = $this->createForm(AddMetierType::class,$partenaireMetier);
         $form->handleRequest($request);
-        dump($partenaire->getMetiers()->first());
         
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             
-            $partenaire->addMetier($metier);
+            $partenaire->addMetier($partenaireMetier->getMetier(), $entityManager);
             $entityManager->persist($partenaire);
             $entityManager->flush();
             return $this->show($partenaire);
@@ -165,8 +168,22 @@ class PartenaireController extends AbstractController
         
         return $this->render('partenaire/addMetier.html.twig', [
             'partenaire' => $partenaire,
-            'metier' => $metier,
             'form' => $form->createView()
         ]);
+    }
+    /**
+     *
+     * @Route("/{id}/del/metier/{idm}", name="partenaire_delete_metier", methods={"DELETE"})
+     * @Entity("Metier", expr="repository.find(idm)")
+     */
+    public function removeMetier(Request $request, Partenaire $partenaire, Metier $metier): Response
+    {
+        if ($this->isCsrfTokenValid('partenaire_delete_metier'.$partenaire->getId().$metier->getId(), $request->request->get('_token'))) {
+            $partenaire->removeMetier($metier);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
+        return $this->show($partenaire);
+        //        return $this->redirectToRoute('metier_show',$metier->getId());
     }
 }

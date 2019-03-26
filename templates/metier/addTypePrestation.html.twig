@@ -3,7 +3,7 @@
 {% block title %}Ajout d'un type de prestation au Metier{% endblock %}
 
 {% block body %}
-    <h1>Ajout d'un type de prestation au Metier</h1>
+    <h1>Ajout d'un type de prestation au Metier {{ metier.nom }}</h1>
 
     {{ include('type_prestation/_form.html.twig') }}
 

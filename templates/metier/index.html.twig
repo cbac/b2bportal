@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>actions</th>
             </tr>
@@ -16,16 +15,36 @@
         <tbody>
         {% for metier in metiers %}
             <tr>
-                <td>{{ metier.id }}</td>
                 <td>{{ metier.nom }}</td>
                 <td>
                     <a href="{{ path('metier_show', {'id': metier.id}) }}">show</a>
                     <a href="{{ path('metier_edit', {'id': metier.id}) }}">edit</a>
                 </td>
             </tr>
+            <tr>
+            <td></td>
+            <td>
+            <table>
+            <thead>
+            <th>Type Prestation</th>
+            </thead>
+            <tbody>
+                  {% for typePrestation in metier.typesPrestation %}
+            <tr>
+                <td>{{ typePrestation }}</td>
+            </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td>no records found</td>
+            </tr>
+        {% endfor %}
+            </tbody>
+            </table>
+            </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

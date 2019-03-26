@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Prestation;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PartenaireRepository")
@@ -49,13 +50,14 @@ class Partenaire extends Client
         return $this->metiers;
     }
 
-    public function addMetier(Metier $metier): self
+    public function addMetier(Metier $metier, EntityManager $entityManager): self
     {
         if (!$this->metiers->contains($metier)) {
             $this->metiers->add($metier);
             foreach($metier->gettypesPrestation() as $typePrestation){
                 $catEntry = new Catalogue();
                 $catEntry->setTypePrestation($typePrestation);
+                $entityManager->persist($catEntry);
                 $this->addCatalogue($catEntry);
             }
         }

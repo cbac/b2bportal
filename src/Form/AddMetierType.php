@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Metier;
-use Doctrine\ORM\EntityRepository;
+use App\Entity\PartenaireMetier;
 
 class AddMetierType extends AbstractType
 {
@@ -17,7 +17,7 @@ class AddMetierType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom', EntityType::class, [
+        $builder->add('nomMetier', EntityType::class, [
             // looks for choice from this entity
             'class' => Metier::class,
             // uses the nom property as the visible option string
@@ -31,7 +31,7 @@ class AddMetierType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Metier::class,
+            'data_class' =>PartenaireMetier::class,
         ]);
     }
 

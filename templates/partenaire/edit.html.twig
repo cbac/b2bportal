@@ -18,10 +18,7 @@
         {% for metier in partenaire.metiers %}
         <tr>
             <td>{{ metier.nom }}</td>
-            <td><a
-                href="{{ path('metier_show', {'id': metier.id}) }}">show</a>
-                <a
-                href="{{ path('metier_edit', {'id': metier.id}) }}">edit</a>
+            <td>{{ include('partenaire/_delete_metier_form.html.twig') }}
             </td>
         </tr>
         {% else %}
@@ -61,7 +58,7 @@
         {% endfor %}
     </tbody>
 </table>
-<a href="{{ path('partenaire_add_typeprestation', {'id': partenaire.id}) }}">add
+<a href="{{ path('partenaire_add_catalogue', {'id': partenaire.id}) }}">add
     prestation type</a>
     <a href="{{ path('partenaire_index') }}">back to list</a>
 
