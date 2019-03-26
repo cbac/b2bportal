@@ -15,6 +15,7 @@
         <tbody>
         {% for metier in metiers %}
             <tr>
+            <td>{{ metier.id }}</td>
                 <td>{{ metier.nom }}</td>
                 <td>
                     <a href="{{ path('metier_show', {'id': metier.id}) }}">show</a>

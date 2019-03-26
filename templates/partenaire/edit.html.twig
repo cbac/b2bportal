@@ -45,8 +45,7 @@
             <td>{{ cat_entry.typePrestation.nomType }}</td>
             <td>{{ cat_entry.typePrestation.description }}</td>
             <td>{{ cat_entry.tarifPublic }}</td>
-            <td><a
-                href="{{ path('catalogue_show', {'id': cat_entry.id}) }}">show</a>
+            <td>{{ include('partenaire/_delete_catalogue_form.html.twig') }}
                 <a
                 href="{{ path('catalogue_edit', {'id': cat_entry.id}) }}">edit</a>
             </td>

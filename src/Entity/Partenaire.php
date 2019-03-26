@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,27 +8,33 @@ use App\Entity\Prestation;
 use Doctrine\ORM\EntityManager;
 
 /**
+ *
  * @ORM\Entity(repositoryClass="App\Repository\PartenaireRepository")
- * 
+ *
  */
 class Partenaire extends Client
 {
+
     /**
+     *
      * @ORM\ManyToMany(targetEntity="App\Entity\Metier")
      */
     private $metiers;
 
     /**
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Prestation", mappedBy="partenaire", orphanRemoval=true)
      */
     private $prestations;
 
     /**
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Catalogue", mappedBy="partenaire", orphanRemoval=true)
      */
     private $catalogues;
 
     /**
+     *
      * @ORM\ManyToMany(targetEntity="App\Entity\TypeEvenement", inversedBy="partenaires")
      */
     private $typeEvenements;
@@ -43,6 +48,7 @@ class Partenaire extends Client
     }
 
     /**
+     *
      * @return Collection|Metier[]
      */
     public function getMetiers(): Collection
@@ -52,13 +58,14 @@ class Partenaire extends Client
 
     public function addMetier(Metier $metier, EntityManager $entityManager): self
     {
-        if (!$this->metiers->contains($metier)) {
+        if (! $this->metiers->contains($metier)) {
             $this->metiers->add($metier);
-            foreach($metier->gettypesPrestation() as $typePrestation){
+            foreach ($metier->gettypesPrestation() as $typePrestation) {
                 $catEntry = new Catalogue();
                 $catEntry->setTypePrestation($typePrestation);
-                $entityManager->persist($catEntry);
-                $this->addCatalogue($catEntry);
+                if ($this->addCatalogue($catEntry) != null) {
+                    $entityManager->persist($catEntry);
+                }
             }
         }
         return $this;
@@ -74,6 +81,7 @@ class Partenaire extends Client
     }
 
     /**
+     *
      * @return Collection|Prestation[]
      */
     public function getPrestations(): Collection
@@ -83,7 +91,7 @@ class Partenaire extends Client
 
     public function addPrestation(Prestation $prestation): self
     {
-        if (!$this->prestations->contains($prestation)) {
+        if (! $this->prestations->contains($prestation)) {
             $this->prestations->add($prestation);
             $prestation->setPartenaire($this);
         }
@@ -105,6 +113,7 @@ class Partenaire extends Client
     }
 
     /**
+     *
      * @return Collection|Catalogue[]
      */
     public function getCatalogues(): Collection
@@ -112,14 +121,20 @@ class Partenaire extends Client
         return $this->catalogues;
     }
 
-    public function addCatalogue(Catalogue $catalogue): self
+    public function addCatalogue(Catalogue $catalogue): ? Catalogue
     {
-        if (!$this->catalogues->contains($catalogue)) {
+        if (! $this->catalogues->contains($catalogue)) {
+            foreach ($this->catalogues as $catentry) {
+                if ($catentry->getTypePrestation() == $catalogue->getTypePrestation()) {
+                    // if TypePrestation is already in catalogue dont add it
+                    return null;
+                }
+            }
             $this->catalogues[] = $catalogue;
             $catalogue->setPartenaire($this);
         }
 
-        return $this;
+        return $catalogue;
     }
 
     public function removeCatalogue(Catalogue $catalogue): self
@@ -142,19 +157,19 @@ class Partenaire extends Client
 
     public function addTypeEvenement(TypeEvenement $typeEvenement): self
     {
-        if (!$this->typeEvenements->contains($typeEvenement)) {
+        if (! $this->typeEvenements->contains($typeEvenement)) {
             $this->typeEvenements->add($typeEvenement);
         }
-        
+
         return $this;
     }
-    
+
     public function removeTypeEvenement(TypeEvenement $typeEvenement): self
     {
         if ($this->typeEvenements->contains($typeEvenement)) {
             $this->typeEvenements->removeElement($typeEvenement);
         }
-        
+
         return $this;
     }
 }

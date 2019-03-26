@@ -4,13 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Metier;
 use App\Entity\Partenaire;
-use App\Form\Catalogue1Type;
 use App\Form\CatalogueType;
 use App\Form\PartenaireType;
-use App\Entity\TypePrestation;
-use App\Form\TypePrestationType;
 use App\Repository\PartenaireRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -145,6 +141,22 @@ class PartenaireController extends AbstractController
     }
     /**
      *
+     * @Route("/{id}/del/catalogue/{idc}", name="partenaire_delete_catalogue", methods={"DELETE"})
+     * @Entity("partenaire", expr="repository.find(id)")
+     * @Entity("catEntry", expr="repository.find(idc)")
+     */
+    public function removeCatalogue(Request $request, Partenaire $partenaire, Catalogue $catEntry): Response
+    {
+        if ($this->isCsrfTokenValid('partenaire_delete_catalogue'.$partenaire->getId().$catEntry->getId(), $request->request->get('_token'))) {
+            $partenaire->removeCatalogue($catEntry);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
+        return $this->show($partenaire);
+        //        return $this->redirectToRoute('metier_show',$metier->getId());
+    }
+    /**
+     *
      * @Route("/{id}/add/metier", name="partenaire_add_metier", methods={"GET","POST"})
      */
     public function addMetier(Request $request, Partenaire $partenaire, MetierRepository $metierRepository): Response
@@ -174,7 +186,8 @@ class PartenaireController extends AbstractController
     /**
      *
      * @Route("/{id}/del/metier/{idm}", name="partenaire_delete_metier", methods={"DELETE"})
-     * @Entity("Metier", expr="repository.find(idm)")
+     * @Entity("partenaire", expr="repository.find(id)")
+     * @Entity("metier", expr="repository.find(idm)")
      */
     public function removeMetier(Request $request, Partenaire $partenaire, Metier $metier): Response
     {

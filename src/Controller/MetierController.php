@@ -139,7 +139,7 @@ return $this->show($metier);
     /**
      *
      * @Route("/{id}/del/type/prestation/{idt}", name="metier_del_typeprestation", methods={"DELETE"})
-     * @Entity("TypePrestation", expr="repository.find(idt)")
+     * @Entity("typePrestation", expr="repository.find(idt)")
      */
     public function removeTypePrestation(Request $request, Metier $metier, TypePrestation $typePrestation): Response
     {
