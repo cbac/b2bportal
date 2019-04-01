@@ -21,7 +21,7 @@
                 <td>{{ catalogue.typePrestation }}</td>
                 <td>{{ catalogue.tarifPublic }}</td>
                 <td>
-                    {{ include('catalogue/_edit_button.html.twig') }}
+                    {{ include('_edit_button.html.twig',{'action_path':'catalogue_edit','id_value':catalogue.id,'label':'Editer cette entrée'}) }}
                 </td>
             </tr>
         {% else %}
@@ -31,6 +31,6 @@
         {% endfor %}
         </tbody>
     </table>
-    {{ include('catalogue/_new_button.html.twig') }}
+    {{ include('_new_button.html.twig', {'action_path':'catalogue_new','label':'Ajouter une entrée au catalogue'}) }}
 
 {% endblock %}

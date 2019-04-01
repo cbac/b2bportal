@@ -8,7 +8,7 @@
     <p>
        <b>TarifPublic : </b>{{ catalogue.tarifPublic }}
     </p>
-    {{ include('catalogue/_list_button.html.twig') }}
-    {{ include('catalogue/_edit_button.html.twig') }}
+    {{ include('_list_button.html.twig', {'action_path':'catalogue_index','label':'Catalogue des partenaires'}) }}
+    {{ include('_edit_button.html.twig',{'action_path':'catalogue_edit','id_value':catalogue.id,'label':'Editer cette entrée'}) }}
     {{ include('catalogue/_delete_form.html.twig') }}
 {% endblock %}

@@ -6,6 +6,6 @@
     <h1>Create new Catalogue</h1>
 
     {{ include('catalogue/_form.html.twig') }}
+    {{ include('_list_button.html.twig', {'action_path':'catalogue_index','label':'Catalogue des partenaires'}) }}
 
-    {{ include('catalogue/_list_button.html.twig') }}
 {% endblock %}
