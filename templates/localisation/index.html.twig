@@ -23,8 +23,7 @@
                 <td>{{ localisation.longitude }}</td>
                 <td>{{ localisation.address }}</td>
                 <td>
-                    <a href="{{ path('localisation_show', {'id': localisation.id}) }}">show</a>
-                    <a href="{{ path('localisation_edit', {'id': localisation.id}) }}">edit</a>
+                    {{ include('localisation/_edit_button.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -35,5 +34,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('localisation_new') }}">Create new</a>
+    {{ include('localisation/_new_button.html.twig') }}
 {% endblock %}

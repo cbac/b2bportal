@@ -3,24 +3,12 @@
 {% block title %}Catalogue{% endblock %}
 
 {% block body %}
-    <h1>Catalogue</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ catalogue.id }}</td>
-            </tr>
-            <tr>
-                <th>TarifPublic</th>
-                <td>{{ catalogue.tarifPublic }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('catalogue_index') }}">back to list</a>
-
-    <a href="{{ path('catalogue_edit', {'id': catalogue.id}) }}">edit</a>
-
+    <h3>Partenaire : {{ catalogue.partenaire }} </h3>
+    <h3>Type de prestation : {{ catalogue.nomType }}</h3>
+    <p>
+       <b>TarifPublic : </b>{{ catalogue.tarifPublic }}
+    </p>
+    {{ include('catalogue/_list_button.html.twig') }}
+    {{ include('catalogue/_edit_button.html.twig') }}
     {{ include('catalogue/_delete_form.html.twig') }}
 {% endblock %}

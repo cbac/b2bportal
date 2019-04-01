@@ -21,8 +21,10 @@
                 <td>{{ partenaire.nom }}</td>
                 <td>{{ partenaire.prenom }}</td>
                 <td>
-                {{ include('partenaire/_edit_button.html.twig') }}
-                {{ include('partenaire/_show_button.html.twig') }}
+                {{ include('_edit_button.html.twig', {'action_path':'partenaire_edit','label':'Editer le partenaire',
+                'id_value': partenaire.id}) }}
+                {{ include('_show_button.html.twig', {'action_path':'partenaire_show','label':'Détails du partenaire',
+                'id_value': partenaire.id}) }}
                 </td>
             </tr>
         {% else %}
@@ -33,5 +35,5 @@
         </tbody>
     </table>
 
-    {{ include('partenaire/_new_button.html.twig') }}
+    {{ include('_new_button.html.twig', {'action_path':'partenaire_new','label':'Ajouter un partenaire'}) }}
 {% endblock %}

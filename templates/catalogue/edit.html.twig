@@ -6,8 +6,7 @@
     <h1>Edit Catalogue</h1>
 
     {{ include('catalogue/_form.html.twig', {'button_label': 'Mise à jour'}) }}
-
-    {{ include('partenaire/_edit_button.html.twig', {'partenaire': catalogue.partenaire, 'button_label': "Retour à l'édition du partenaire"}) }}
-
     {{ include('partenaire/_delete_catalogue_form.html.twig', {'partenaire':catalogue.partenaire, 'cat_entry': catalogue}) }}
+    {{ include('partenaire/_edit_button.html.twig', {'partenaire': catalogue.partenaire, 'button_label': "Édition du partenaire"}) }}
+
 {% endblock %}

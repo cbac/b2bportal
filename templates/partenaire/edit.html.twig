@@ -47,7 +47,7 @@
             <td>{{ cat_entry.typePrestation.description }}</td>
             <td>{{ cat_entry.tarifPublic }}</td>
             <td>{{ include('partenaire/_delete_catalogue_form.html.twig') }}
-                {{  include('catalogue/_edit_button.html.twig') }}
+                {{  include('_edit_button.html.twig', {'action_path':'catalogue_edit','label':"Editer l'entrée du catalogue",'id_value':cat_entry.id}) }}
             </td>
         </tr>
         {% else %}
@@ -61,7 +61,6 @@
 <br>
         {{ include('partenaire/_delete_form.html.twig') }}
         <br>
-    {{ include('partenaire/_back_to_list_button.html.twig') }}
-
+    {{ include('_list_button.html.twig', {'action_path':'partenaire_index','label':'Liste des partenaires'}) }}
 
 {% endblock %}

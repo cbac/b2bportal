@@ -6,6 +6,5 @@
     <h1>Ajout d'un type de prestation au Metier {{ metier.nom }}</h1>
 
     {{ include('type_prestation/_form.html.twig') }}
-
-    <a href="{{ path('metier_index') }}">back to list</a>
+{{  include ('metier/_list_button.html.twig') }}
 {% endblock %}

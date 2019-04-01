@@ -3,9 +3,31 @@
 {% block title %}Add Catalogue entry{% endblock %}
 
 {% block body %}
-    <h1>Add Catalogue entry</h1>
+<h2>Catalogue de prestations de {{ partenaire.nom }} {{ partenaire.prenom }}</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type prestation</th>
+            <th>Description</th>
+            <th>TarifPublic</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cat_entry in partenaire.catalogues %}
+        <tr>
+            <td>{{ cat_entry.typePrestation.nomType }}</td>
+            <td>{{ cat_entry.typePrestation.description }}</td>
+            <td>{{ cat_entry.tarifPublic }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    <h2>Ajouter une entrée au catalogue</h2>
 
     {{ include('catalogue/_form.html.twig') }}
 
-    {{ include('catalogue/_show_button.html.twig') }}
 {% endblock %}

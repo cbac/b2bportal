@@ -7,5 +7,5 @@
 
     {{ include('partenaire/_form.html.twig') }}
 
-        {{ include('partenaire/_back_to_list_button.html.twig') }}
+    {{ include('_list_button.html.twig', {'action_path':'partenaire_index','label':'Liste des partenaires'}) }}
 {% endblock %}
