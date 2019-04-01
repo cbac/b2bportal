@@ -68,7 +68,11 @@ class CatalogueController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            // this method is invoked by partenaire_edit so
+            // go back to the page
+            return $this->redirectToRoute('partenaire_edit', [
+                'id' => $catalogue->getPartenaire()->getId(),
+            ]);
             return $this->redirectToRoute('catalogue_index', [
                 'id' => $catalogue->getId(),
             ]);

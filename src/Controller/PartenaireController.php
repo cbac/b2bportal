@@ -13,10 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Form\AddMetierType;
 use App\Entity\Catalogue;
 use App\Repository\MetierRepository;
 use App\Entity\PartenaireMetier;
+use App\Form\AddPartenaireMetierType;
 
 /**
  * @Route("/partenaire")
@@ -116,8 +116,10 @@ class PartenaireController extends AbstractController
     }
     /**
      *
-     * @Route("/{id}/add/catalogue", name="partenaire_add_catalogue", methods={"GET","POST"})
+     * @Route("/{idp}/add/catalogue", name="partenaire_add_catalogue", methods={"GET","POST"})
+     * @Entity("partenaire", expr="repository.find(idp)")
      */
+    
     public function addCatalogue(Request $request, Partenaire $partenaire): Response
     {
         $catalogue = new Catalogue();
@@ -126,6 +128,7 @@ class PartenaireController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $catalogue->setPartenaire($partenaire);
             $partenaire->addCatalogue($catalogue);
             $entityManager->persist($catalogue);
             $entityManager->persist($partenaire);
@@ -141,8 +144,8 @@ class PartenaireController extends AbstractController
     }
     /**
      *
-     * @Route("/{id}/del/catalogue/{idc}", name="partenaire_delete_catalogue", methods={"DELETE"})
-     * @Entity("partenaire", expr="repository.find(id)")
+     * @Route("/{idp}/del/catalogue/{idc}", name="partenaire_delete_catalogue", methods={"DELETE"})
+     * @Entity("partenaire", expr="repository.find(idp)")
      * @Entity("catEntry", expr="repository.find(idc)")
      */
     public function removeCatalogue(Request $request, Partenaire $partenaire, Catalogue $catEntry): Response
@@ -156,14 +159,21 @@ class PartenaireController extends AbstractController
         //        return $this->redirectToRoute('metier_show',$metier->getId());
     }
     /**
-     *
-     * @Route("/{id}/add/metier", name="partenaire_add_metier", methods={"GET","POST"})
+     * Ajout d'un métier pour un partenaire. Voir \App\Form\AddPartenaireMetierType.
+     * @Route("/{idp}/add/metier", name="partenaire_add_metier", methods={"GET","POST"})
+     * @Entity("partenaire", expr="repository.find(idp)")
+     * On force l'injection par le framework symfony du paramêtre correspondant à la classe
+     * \App\Repository\MetierRepository voir (https://symfony.com/doc/current/controller.html#controller-accessing-services)
+     * pour pouvoir le passer à la classe \App\Entity\PartnaireMetier
      */
     public function addMetier(Request $request, Partenaire $partenaire, MetierRepository $metierRepository): Response
     {
+        /* 
+         * On injecte l'objet \App\Repository\MetierRepository
+         */
         $partenaireMetier = new PartenaireMetier($metierRepository);
         $partenaireMetier->setPartenaire($partenaire);
-        $form = $this->createForm(AddMetierType::class,$partenaireMetier);
+        $form = $this->createForm(AddPartenaireMetierType::class,$partenaireMetier);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -185,8 +195,8 @@ class PartenaireController extends AbstractController
     }
     /**
      *
-     * @Route("/{id}/del/metier/{idm}", name="partenaire_delete_metier", methods={"DELETE"})
-     * @Entity("partenaire", expr="repository.find(id)")
+     * @Route("/{idp}/del/metier/{idm}", name="partenaire_delete_metier", methods={"DELETE"})
+     * @Entity("partenaire", expr="repository.find(idp)")
      * @Entity("metier", expr="repository.find(idm)")
      */
     public function removeMetier(Request $request, Partenaire $partenaire, Metier $metier): Response

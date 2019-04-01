@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Add Metier{% endblock %}
+{% block title %}Ajout d'un métier à un partenaire{% endblock %}
 
 {% block body %}
-    <h1>Add Metier </h1>
+    <h1>Ajout d'un métier à un partenaire </h1>
     <h2>Partenaire {{ partenaire.nom }} {{ partenaire.prenom }}</h2>
-    <h2>Liste des metiers</h2>
+    <h2>Liste des metiers du partenaire</h2>
     <table class="table">
     <thead>
         <tr>
@@ -28,6 +28,6 @@
         <p>
     {{ include('metier/_form.html.twig') }}
     <br>
-    {{ include('catalogue/_show_button.html.twig') }}
+    {{ include('partenaire/_show_button.html.twig') }}
     </p>
 {% endblock %}
