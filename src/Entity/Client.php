@@ -117,7 +117,30 @@ class Client
     {
         return $this->localisation;
     }
-
+    public function getAddress(): ?string
+    {
+        if($this->localisation == null){
+            return null;
+        }
+        return $this->localisation->getAddress();
+    }
+    public function setAddress(string $newAddress) : Localisation
+    {
+        if($this->localisation == null){
+            $this->localisation = new Localisation();
+        }
+        $res = $this->localisation->setAddress($newAddress);
+        $this->localisation->calculateLatLon();
+        return $res;
+    }
+    public function getNewAddress(): ?string
+    {
+        return null;
+    }
+    public function setNewAddress(string $newAddress) : Localisation
+    {
+        return $this->setAddress($newAddress);
+    }
     public function setLocalisation(Localisation $localisation): self
     { $this->localisation = $localisation;
     return $this;
