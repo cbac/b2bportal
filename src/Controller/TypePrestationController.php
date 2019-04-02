@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/type/prestation")
+ * @Route("/admin/type/prestation")
  */
 class TypePrestationController extends AbstractController
 {

@@ -1,38 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Localisation index{% endblock %}
+{% block title %}Liste des localisations{% endblock %}
 
 {% block body %}
-    <h1>Localisation index</h1>
+    <h1>Liste des localisations</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Addresse</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
-                <th>Address</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for localisation in localisations %}
             <tr>
-                <td>{{ localisation.id }}</td>
+                <td>{{ localisation.address }}</td>
                 <td>{{ localisation.latitude }}</td>
                 <td>{{ localisation.longitude }}</td>
-                <td>{{ localisation.address }}</td>
                 <td>
-                    {{ include('localisation/_edit_button.html.twig') }}
+                    {{ include('_edit_button.html.twig',{'action_path':'localisation_edit','id_value':localisation.id,'label':'Editer cette entrée'}) }}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {{ include('_new_button.html.twig', {'action_path':'localisation_new','label':'Ajouter une localisation'}) }}
 
-    {{ include('localisation/_new_button.html.twig') }}
 {% endblock %}

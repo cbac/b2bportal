@@ -19,32 +19,12 @@ class PartenaireRepository extends ServiceEntityRepository
         parent::__construct($registry, Partenaire::class);
     }
 
-    // /**
-    //  * @return Partenaire[] Returns an array of Partenaire objects
-    //  */
-    /*
-    public function findByExampleField($value)
+ /*   public function findAll()
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->findBy(array('discr'=>'Partenaire'), array('nom' => 'ASC', 'prenom' => 'ASC'));
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Partenaire
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+    public function findById() {
+        return $this->findBy(array('discr'=>'Partenaire'), array('id' => 'ASC'));
     }
     */
 }

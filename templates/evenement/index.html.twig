@@ -8,30 +8,31 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Date</th>
+                <th>Localisation</th>
+                <th>Client</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for evenement in evenements %}
             <tr>
-                <td>{{ evenement.id }}</td>
                 <td>{{ evenement.nom }}</td>
                 <td>{{ evenement.date ? evenement.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ evenement.localisation }}</td>
+                <td>{{evenement.client}}
                 <td>
-                    <a href="{{ path('evenement_show', {'id': evenement.id}) }}">show</a>
-                    <a href="{{ path('evenement_edit', {'id': evenement.id}) }}">edit</a>
+                    {{ include('_edit_button.html.twig',{'action_path':'evenement_edit','id_value':evenement.id,'label':'Editer cette entrée'}) }}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('evenement_new') }}">Create new</a>
+    {{ include('_new_button.html.twig', {'action_path':'evenement_new','label':'Ajouter un événement'}) }}
 {% endblock %}

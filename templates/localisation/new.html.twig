@@ -7,5 +7,5 @@
 
     {{ include('localisation/_form.html.twig') }}
 
-    {{ include('localisation/_list_button.html.twig') }}
+    {{ include('_list_button.html.twig', {'action_path':'localisation_index','label':'Liste des localisations'}) }}
 {% endblock %}

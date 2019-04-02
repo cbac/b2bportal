@@ -12,9 +12,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Localisation;
-use App\Entity\Partenaire;
 use App\Entity\Metier;
-use App\Entity\Catalogue;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\TypePrestation;
@@ -47,6 +45,8 @@ class AppFixtures extends Fixture
         yield ['10 rue Jean Mermoz, 91080, Evry-Courcouronnes, France'];
         yield ["rond point de l'étoile, 33510, ANDERNOS LES BAINS, France"];
         yield ['11 rue charles fourier, 91000, Evry-Courcouronnes, France'];
+        yield ['11 avenue du parc aux biches, 91000, Evry-Courcouronnes, France'];
+        
     }
 
     private function loadMetier(ObjectManager $manager)

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/catalogue")
+ * @Route("/admin/catalogue")
  */
 class CatalogueController extends AbstractController
 {

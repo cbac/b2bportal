@@ -48,8 +48,6 @@ class Client
      */
     private $localisation;
 
-
-
     public function __construct()
     {
         $this->evenements = new ArrayCollection();

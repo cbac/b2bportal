@@ -48,6 +48,11 @@ class Evenement
      */
     private $client;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Localisation", inversedBy="evenements")
+     */
+    private $localisation;
+
     public function __construct()
     {
         $this->prestations = new ArrayCollection();
@@ -139,5 +144,17 @@ class Evenement
     }
     public function __toString():string {
         return $this->nom;
+    }
+
+    public function getLocalisation(): ?Localisation
+    {
+        return $this->localisation;
+    }
+
+    public function setLocalisation(?Localisation $localisation): self
+    {
+        $this->localisation = $localisation;
+
+        return $this;
     }
 }

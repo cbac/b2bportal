@@ -17,7 +17,7 @@ use App\Entity\MetierTypePrestation;
 
 /**
  *
- * @Route("/metier")
+ * @Route("/admin/metier")
  */
 class MetierController extends AbstractController
 {

@@ -16,6 +16,7 @@ class EvenementType extends AbstractType
             ->add('date')
             ->add('type')
             ->add('client')
+            ->add('localisation')
         ;
     }
 

@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client index{% endblock %}
+{% block title %}Liste des clients{% endblock %}
 
 {% block body %}
-    <h1>Client index</h1>
+    <h1>Liste des clients</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>actions</th>
@@ -17,12 +16,12 @@
         <tbody>
         {% for client in clients %}
             <tr>
-                <td>{{ client.id }}</td>
                 <td>{{ client.nom }}</td>
                 <td>{{ client.prenom }}</td>
                 <td>
-                   <a href="{{ path('client_show', {'id': client.getId()}) }}">show</a>
-                    <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a> 
+                {{ include('_edit_button.html.twig', {'action_path':'client_edit','label':'Editer le client',
+                'id_value': client.id}) }}
+
                 </td>
             </tr>
         {% else %}
@@ -32,6 +31,6 @@
         {% endfor %}
         </tbody>
     </table>
+    {{ include('_new_button.html.twig', {'action_path':'client_new','label':'Ajouter un client'}) }}
 
-    <a href="{{ path('client_new') }}">Create new</a>
 {% endblock %}

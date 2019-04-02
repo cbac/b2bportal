@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Localisation</h1>
 
-    {{ include('localisation/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('localisation/_form.html.twig', {'button_label': 'Modifier'}) }}
 
     {{ include('localisation/_delete_form.html.twig') }}
-    {{ include('localisation/_list_button.html.twig') }}
+    {{ include('_list_button.html.twig', {'action_path':'localisation_index','label':'Liste des localisations'}) }}
 
 {% endblock %}
