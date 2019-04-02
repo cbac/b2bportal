@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Client;
 use App\Form\ClientType;
+use App\Repository\LocalisationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,7 @@ class ClientController extends AbstractController
     /**
      * @Route("/new", name="client_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder ): Response
+    public function new(Request $request, UserPasswordEncoderInterface $encoder, LocalisationRepository $localisationRepository): Response
     {
         $client = new Client();
         $form = $this->createForm(ClientType::class, $client);
@@ -46,9 +47,15 @@ class ClientController extends AbstractController
             // Set their role
             $user->setRole('ROLE_USER');
             $entityManager->persist($user);
+            // check if localisation not already in database
             $localisation = $client->getLocalisation();
-            $localisation->calculateLatLon();
-            $entityManager->persist($localisation);
+            $exist = $localisationRepository->findOneByAddress($localisation->getAddress());
+            if($exist == null){
+                $localisation->calculateLatLon();
+                $entityManager->persist($localisation);
+            } else {
+                $client->setLocalisation($exist);
+            }
             $entityManager->persist($client);
             $entityManager->flush();
 

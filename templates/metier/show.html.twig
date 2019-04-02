@@ -31,6 +31,6 @@ Metier
 	</tbody>
 </table>
 
-{{ include('metier/_edit_button.html.twig') }}
-{{ include('metier/_back_to_list_button.html.twig') }}
+    {{ include('_edit_button.html.twig',{'action_path':'metier_edit','id_value':metier.id,'label':'Editer ce métier'}) }}
+    {{ include('_list_button.html.twig', {'action_path':'metier_index','label':'Liste des métiers'}) }}
 {% endblock %}

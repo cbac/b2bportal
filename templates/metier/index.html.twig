@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Metier index{% endblock %}
+{% block title %}Liste des métiers{% endblock %}
 
 {% block body %}
-    <h1>Metier index</h1>
+    <h1>Liste des métiers</h1>
 
     <table class="table">
         <thead>
@@ -15,10 +15,9 @@
         <tbody>
         {% for metier in metiers %}
             <tr>
-            <td>{{ metier.id }}</td>
                 <td>{{ metier.nom }}</td>
                 <td>
-                 <td>{{ include('metier/_edit_button.html.twig') }}
+                    {{ include('_edit_button.html.twig',{'action_path':'metier_edit','id_value':metier.id,'label':'Editer ce métier'}) }}
                 </td>
             </tr>
             <tr>
@@ -50,5 +49,5 @@
         </tbody>
     </table>
 
-    {{ include('metier/_new_metier_button.html.twig') }}
+    {{ include('_new_button.html.twig', {'action_path':'metier_new','label':'Ajouter un métier'}) }}
 {% endblock %}

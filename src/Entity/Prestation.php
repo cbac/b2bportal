@@ -35,18 +35,6 @@ class Prestation
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Prestation", inversedBy="sousPrestations")
-     */
-    private $parent;
-
-    /**
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Prestation", mappedBy="parent")
-     */
-    private $sousPrestations;
-
-    /**
-     *
      * @ORM\ManyToOne(targetEntity="Etat")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -115,62 +103,37 @@ class Prestation
         return $this;
     }
 
-    public function getParent(): ?self
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?self $parent): self
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     *
-     * @return Collection|self[]
-     */
-    public function getSousPrestations(): Collection
-    {
-        return $this->sousPrestations;
-    }
-
-    public function addSousPrestation(self $sousPrestation): self
-    {
-        if (! $this->sousPrestations->contains($sousPrestation)) {
-            $this->sousPrestations[] = $sousPrestation;
-            $sousPrestation->setParent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSousPrestation(self $sousPrestation): self
-    {
-        if ($this->sousPrestations->contains($sousPrestation)) {
-            $this->sousPrestations->removeElement($sousPrestation);
-            // set the owning side to null (unless already changed)
-            if ($sousPrestation->getParent() === $this) {
-                $sousPrestation->setParent(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getEtat(): ?Etat
     {
         return $this->etat;
     }
-
+/**
+ * Only for Doctrine
+ * Normal usage is to use next to make Etat progress
+ * @param Etat $etat
+ * @return self
+ */
     public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
 
         return $this;
     }
-
+    /**
+     * Relay function to modify Prestation status
+     * @return string
+     */
+    public function next() : int
+    {
+        $res = $this->etat->next(); 
+        // try to change the evenement status
+        $this->evenement->next();
+        return $res;
+    }
+    public function getCurrent():int
+    {
+        return $this->etat->getCurrent();   
+    }
     public function getEvenement(): ?Evenement
     {
         return $this->evenement;

@@ -7,14 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  */
 class Etat {
-    const created = "new";
-    const estimated= "devis demandé";
-    const accepted = "devis accepté";
-    const started = "en cours de réalisation";
-    const finished ="terminé";
-    const invoiced ="facturé";
-    const paid = "payé";
-    const closed = "fermé";
+    const myStatus = array(
+        "ouvert",
+        "devis demandé",
+        "devis accepté",
+        "en cours de réalisation",
+        "terminé",
+        "facturé",
+        "payé",
+        "clos");
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -23,49 +24,32 @@ class Etat {
     private $id;
     
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
-    private $current = self::created;
+    private $current = 0;
     
     public function __construct(){
-        $this->current = self::created;
+        $this->current = 0;
     }
-    public function getCurrent():string {
+    public static function getMax(){
+        return count(self::myStatus);
+    }
+    public function getCurrent():int {
         return $this->current;
     }
-    public function next() : string {
+    public function next() : int {
         $old = $this->current;
-        switch ($old) { 
-            case self::created : 
-                $this->current = self::estimated;
-                break;
-            case self::estimated :
-                $this->current = self::accepted;
-               break;
-            case self::accepted :
-                $this->current = self::started; 
-                break;
-            case self::started :
-                $this->current = self::finished;
-                break;
-            case  self::finished :
-                $this->current = self::invoiced;
-                break;
-            case  self::invoiced :
-                $this->current = self::paid;
-                break;
-            case self::paid:
-            $this->current = self::closed;
-            break;
+        if($old < count(self::myStatus)){
+            $this->current++;
         }
         return $old;
     }
-    public function setCurrent($newVal) : string{
+    public function setCurrent(int $newVal) : int{
         $old = $this->current;
         $this->current = $newVal;
         return $old;
     }
     public function __toString(){
-        return $this->current;
+        return self::myStatus[$this->current];
     }
 }

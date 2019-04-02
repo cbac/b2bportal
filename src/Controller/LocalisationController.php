@@ -31,7 +31,7 @@ class LocalisationController extends AbstractController
      *
      * @Route("/new", name="localisation_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, LocalisationRepository $localisationRepository): Response
     {
         $localisation = new Localisation();
         $form = $this->createForm(LocalisationType::class, $localisation);
@@ -39,10 +39,13 @@ class LocalisationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $localisation->calculateLatLon();
-            $entityManager->persist($localisation);
-            $entityManager->flush();
-
+            // check if localisation not already in database
+            $exist = $localisationRepository->findOneByAddress($localisation->getAddress());
+            if($exist == null){
+                $localisation->calculateLatLon();
+                $entityManager->persist($localisation);
+                $entityManager->flush();
+            }
             return $this->redirectToRoute('localisation_index');
         }
 

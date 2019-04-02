@@ -6,6 +6,7 @@ use App\Entity\Metier;
 use App\Entity\Partenaire;
 use App\Form\CatalogueType;
 use App\Form\PartenaireType;
+use App\Repository\LocalisationRepository;
 use App\Repository\PartenaireRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,7 +38,7 @@ class PartenaireController extends AbstractController
     /**
      * @Route("/new", name="partenaire_new", methods={"GET","POST"})
      */
-    public function new(Request $request,  UserPasswordEncoderInterface $encoder ): Response
+    public function new(Request $request,  UserPasswordEncoderInterface $encoder, LocalisationRepository $localisationRepository): Response
     {
         $partenaire = new Partenaire();
         $form = $this->createForm(PartenaireType::class, $partenaire);
@@ -53,8 +54,15 @@ class PartenaireController extends AbstractController
             // Set their role
             $user->setRole('ROLE_USER');
             $entityManager->persist($user);
+            // check if localisation not already in database
             $localisation = $partenaire->getLocalisation();
-            $localisation->calculateLatLon();
+            $exist = $localisationRepository->findOneByAddress($localisation->getAddress());
+            if($exist == null){
+                $localisation->calculateLatLon();
+                $entityManager->persist($localisation);
+            } else {
+                $partenaire->setLocalisation($exist);
+            }
             $entityManager->persist($partenaire);
             $entityManager->flush();
 

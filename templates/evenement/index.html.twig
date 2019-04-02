@@ -12,6 +12,7 @@
                 <th>Date</th>
                 <th>Localisation</th>
                 <th>Client</th>
+                <th>État</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,7 +22,8 @@
                 <td>{{ evenement.nom }}</td>
                 <td>{{ evenement.date ? evenement.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ evenement.localisation }}</td>
-                <td>{{evenement.client}}
+                <td>{{evenement.client}}</td>
+                <td>{{ evenement.etat }}</td>
                 <td>
                     {{ include('_edit_button.html.twig',{'action_path':'evenement_edit','id_value':evenement.id,'label':'Editer cette entrée'}) }}
                 </td>

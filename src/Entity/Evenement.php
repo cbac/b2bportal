@@ -32,12 +32,6 @@ class Evenement
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TypeEvenement")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $type;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Prestation", mappedBy="evenement", orphanRemoval=true)
      */
     private $prestations;
@@ -52,6 +46,18 @@ class Evenement
      * @ORM\ManyToOne(targetEntity="App\Entity\Localisation", inversedBy="evenements")
      */
     private $localisation;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Etat")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypeEvenement")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $typeEvenement;
 
     public function __construct()
     {
@@ -84,18 +90,6 @@ class Evenement
     public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    public function getType(): ?TypeEvenement
-    {
-        return $this->type;
-    }
-
-    public function setType(?TypeEvenement $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -154,6 +148,52 @@ class Evenement
     public function setLocalisation(?Localisation $localisation): self
     {
         $this->localisation = $localisation;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+    /**
+     * Relay function to modify Evenement status
+     * @return int
+     */
+    public function next() : int
+    {
+        $minPrestations = Etat::getMax();
+        foreach ($this->prestations as $prestation) {
+            if($prestation->getEtat()->getCurrent() < $minPrestations){
+                $minPrestations = $prestation->getEtat()->getCurrent();
+            }
+        }
+        $myCurrent = $this->etat->getCurrent();
+        if($minPrestations > $myCurrent) {
+            // try to change the evenement status
+            return $this->etat->next();
+        }
+        return $myCurrent;
+    }
+    public function getCurrent():string
+    {
+        return $this->etat->getCurrent();
+    }
+    public function getTypeEvenement(): ?TypeEvenement
+    {
+        return $this->typeEvenement;
+    }
+
+    public function setTypeEvenement(?TypeEvenement $typeEvenement): self
+    {
+        $this->typeEvenement = $typeEvenement;
 
         return $this;
     }
