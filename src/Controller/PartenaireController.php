@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Metier;
 use App\Entity\Partenaire;
 use App\Form\CatalogueType;
-use App\Form\PartenaireType;
 use App\Repository\LocalisationRepository;
 use App\Repository\PartenaireRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -18,6 +17,7 @@ use App\Entity\Catalogue;
 use App\Repository\MetierRepository;
 use App\Entity\PartenaireMetier;
 use App\Form\AddPartenaireMetierType;
+use App\Form\PartenaireType;
 
 /**
  * @Route("/partenaire")
