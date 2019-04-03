@@ -37,14 +37,14 @@ class Prestation
     /**
      *
      * @ORM\ManyToOne(targetEntity="Etat")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="etat_id", referencedColumnName="id", nullable=false)
      */
     private $etat;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Evenement", inversedBy="prestations")
-     * @ORM\JoinColumn(name="etat_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="evenement_id", referencedColumnName="id", nullable=false)
      */
     private $evenement;
 
@@ -59,13 +59,6 @@ class Prestation
      * @ORM\ManyToOne(targetEntity="App\Entity\Catalogue", inversedBy="prestations")
      */
     private $catalogue;
-
-    public function __construct()
-    {
-        $this->sousPrestations = new ArrayCollection();
-        $this->parent = null;
-        $this->etat = new Etat();
-    }
 
     public function getId(): ?int
     {

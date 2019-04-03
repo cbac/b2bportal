@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\EtatRepository;
 
 /**
  * @Route("/prestation")
@@ -28,13 +29,15 @@ class PrestationController extends AbstractController
     /**
      * @Route("/new", name="prestation_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,EtatRepository $etatRepository): Response
     {
         $prestation = new Prestation();
         $form = $this->createForm(PrestationType::class, $prestation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $etat = $etatRepository->findOneBy(['current'=>0]);
+            $prestation->setEtat($etat);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($prestation);
             $entityManager->flush();

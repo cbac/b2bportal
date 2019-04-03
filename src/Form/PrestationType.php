@@ -20,9 +20,6 @@ class PrestationType extends AbstractType
             ->add('typePrestation', EntityType::class, [
                 'class'=> TypePrestation::class
             ])
-            ->add('etat', EntityType::class, [
-              'class' => Etat::class
-            ])
             ->add('evenement')
             ->add('partenaire')
         ;
