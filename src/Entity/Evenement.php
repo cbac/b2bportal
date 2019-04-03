@@ -67,10 +67,15 @@ class Evenement
      * @ORM\JoinColumn(nullable=false)
      */
     private $typeEvenement;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\TypePrestation")
+     */
+    private $typesPrestation;
 
     public function __construct()
     {
         $this->prestations = new ArrayCollection();
+        $this->typesPrestation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,7 +229,35 @@ class Evenement
     public function setTypeEvenement(?TypeEvenement $typeEvenement): self
     {
         $this->typeEvenement = $typeEvenement;
-
+        if($typeEvenement!=null && $this->typesPrestation->isEmpty()) {
+            // Copy list of TypePrestation from typeEvenement
+            $this->addTypePrestation($typeEvenement->getTypePrestation());
+        }
         return $this;
     }
+    /**
+     *
+     * @return Collection|TypePrestation[]
+     */
+    public function getTypesPrestation(): Collection
+    {
+        return $this->typesPrestation;
+    }
+    
+    public function addTypePrestation(TypePrestation $typePrestation): self
+    {
+        if (! $this->typesPrestation->contains($typePrestation)) {
+            $this->typesPrestation[] = $typePrestation;
+        }
+        return $this;
+    }
+    
+    public function removeTypePrestation(TypePrestation $typePrestation): self
+    {
+        if ($this->typesPrestation->contains($typePrestation)) {
+            $this->typesPrestation->removeElement($typePrestation);
+        }
+        return $this;
+    }
+    
 }

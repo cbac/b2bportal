@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Evenement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EvenementType extends AbstractType
@@ -13,8 +14,8 @@ class EvenementType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('date')
-            ->add('type')
+            ->add('date',DateType::class)
+            ->add('typeEvenement')
             ->add('client')
             ->add('localisation')
         ;

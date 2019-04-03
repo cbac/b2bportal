@@ -29,7 +29,7 @@ class PrestationController extends AbstractController
     /**
      * @Route("/new", name="prestation_new", methods={"GET","POST"})
      */
-    public function new(Request $request,EtatRepository $etatRepository): Response
+    public function new(Request $request, EtatRepository $etatRepository): Response
     {
         $prestation = new Prestation();
         $form = $this->createForm(PrestationType::class, $prestation);
