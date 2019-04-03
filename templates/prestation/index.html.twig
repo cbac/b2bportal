@@ -8,18 +8,20 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Type prestation</th>
                 <th>DateDebut</th>
                 <th>DateFin</th>
+                <th>Etat</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for prestation in prestations %}
             <tr>
-                <td>{{ prestation.id }}</td>
+                <td>{{ prestation.typePrestation.nomType }}</td>
                 <td>{{ prestation.dateDebut ? prestation.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ prestation.dateFin ? prestation.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ prestation.etat }}</td>
                 <td>
                     <a href="{{ path('prestation_show', {'id': prestation.id}) }}">show</a>
                     <a href="{{ path('prestation_edit', {'id': prestation.id}) }}">edit</a>

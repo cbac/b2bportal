@@ -18,7 +18,10 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
-
+    public function findAll()
+    {
+        return $this->findBy(array(), array('nom' => 'ASC'));
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

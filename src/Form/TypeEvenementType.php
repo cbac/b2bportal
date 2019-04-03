@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\TypeEvenement;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\TypePrestation;
 
 class TypeEvenementType extends AbstractType
 {
@@ -13,6 +15,12 @@ class TypeEvenementType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('typePrestation', EntityType::class, [
+                // looks for choice from this entity
+                'class' => TypePrestation::class,
+                // uses the nom property as the visible option string
+                'choice_label' => 'nomType',
+            ])
         ;
     }
 

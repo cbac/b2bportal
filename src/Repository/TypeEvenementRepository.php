@@ -18,7 +18,10 @@ class TypeEvenementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, TypeEvenement::class);
     }
-
+    public function findAll()
+    {
+        return $this->findBy(array(), array('nom' => 'ASC'));
+    }
     // /**
     //  * @return TypeEvenement[] Returns an array of TypeEvenement objects
     //  */

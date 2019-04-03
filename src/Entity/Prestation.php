@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Etat;
 use Doctrine\Common\Collections\Collection;
+use App\Repository\EtatRepository;
 
 /**
  *
@@ -71,7 +72,7 @@ class Prestation
         return $this->id;
     }
 
-    public function getDateDebut(): ? \DateTime
+    public function getDateDebut(): ?\DateTime
     {
         return $this->dateDebut;
     }
@@ -107,33 +108,52 @@ class Prestation
     {
         return $this->etat;
     }
-/**
- * Only for Doctrine
- * Normal usage is to use next to make Etat progress
- * @param Etat $etat
- * @return self
- */
+
+    /**
+     * Only for Doctrine
+     * Normal usage is to use next to make Etat progress
+     *
+     * @param Etat $etat
+     * @return self
+     */
     public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
 
         return $this;
     }
+
     /**
-     * Relay function to modify Prestation status
+     * Function to modify Prestation status
+     *
      * @return string
      */
-    public function next() : int
+    public function next(EtatRepository $etatRepository): int
     {
-        $res = $this->etat->next(); 
+        $next = new Etat();
+        if ($this->etat == null) {
+            $next = $etatRepository->findOneBy([
+                'current' => 0
+            ]);
+            $this->etat = $next;
+        } else {
+            if ($this->etat->getCurrent() < Etat::getMax()) {
+                $next = $etatRepository->findOneBy([
+                    'current' => $this->etat->getCurrent() + 1
+                ]);
+                $this->etat = $next;
+            }
+        }
         // try to change the evenement status
-        $this->evenement->next();
-        return $res;
+        $this->evenement->next($etatRepository);
+        return $next->getCurrent();
     }
-    public function getCurrent():int
+
+    public function getCurrent(): int
     {
-        return $this->etat->getCurrent();   
+        return $this->etat->getCurrent();
     }
+
     public function getEvenement(): ?Evenement
     {
         return $this->evenement;
@@ -157,28 +177,30 @@ class Prestation
 
         return $this;
     }
+
     public function getCatalogue(): ?Catalogue
     {
         return $this->catalogue;
     }
+
     public function setCatalogue(?Catalogue $catalogue): self
     {
         $this->catalogue = $catalogue;
-        if(isset($catalogue)){
+        if (isset($catalogue)) {
             $this->partenaire = $catalogue->getPartenaire();
         }
-        
+
         return $this;
     }
+
     public function __toString(): ?string
     {
-        if(isset($this->catalogue) && isset($this->evenement)){
+        if (isset($this->catalogue) && isset($this->evenement)) {
             $myTypePrestation = $this->catalogue->getTypePrestation();
-            if(isset($myTypePrestation)){
-                return $myTypePrestation->__toString().' pour '.$this->evenement->__toString();
+            if (isset($myTypePrestation)) {
+                return $myTypePrestation->__toString() . ' pour ' . $this->evenement->__toString();
             }
         }
         return null;
     }
-
 }

@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Nom</th>
+                <th>Type de prestation</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -16,9 +17,9 @@
         {% for type_evenement in type_evenements %}
             <tr>
                 <td>{{ type_evenement.nom }}</td>
+                <td>{{ type_evenement.typePrestation.nomType }}
                 <td>
-                    <a href="{{ path('type_evenement_show', {'id': type_evenement.id}) }}">show</a>
-                    <a href="{{ path('type_evenement_edit', {'id': type_evenement.id}) }}">edit</a>
+                    {{ include('_edit_button.html.twig',{'action_path':'type_evenement_edit','id_value':type_evenement.id,'label':'Editer cette entrée'}) }}
                 </td>
             </tr>
         {% else %}
@@ -28,6 +29,6 @@
         {% endfor %}
         </tbody>
     </table>
+    {{ include('_new_button.html.twig', {'action_path':'type_evenement_new','label':"Ajouter un type d'événement"}) }}
 
-    <a href="{{ path('type_evenement_new') }}">Create new</a>
 {% endblock %}

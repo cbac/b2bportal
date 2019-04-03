@@ -18,7 +18,10 @@ class MetierRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Metier::class);
     }
-
+    public function findAll()
+    {
+        return $this->findBy(array(), array('nom' => 'ASC'));
+    }
     // /**
     //  * @return Metier[] Returns an array of Metier objects
     //  */

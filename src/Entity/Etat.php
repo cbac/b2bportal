@@ -37,13 +37,6 @@ class Etat {
     public function getCurrent():int {
         return $this->current;
     }
-    public function next() : int {
-        $old = $this->current;
-        if($old < count(self::myStatus)){
-            $this->current++;
-        }
-        return $old;
-    }
     public function setCurrent(int $newVal) : int{
         $old = $this->current;
         $this->current = $newVal;

@@ -18,7 +18,10 @@ class TypePrestationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, TypePrestation::class);
     }
-
+    public function findAll()
+    {
+        return $this->findBy(array(), array('nomType' => 'ASC'));
+    }
     // /**
     //  * @return TypePrestation[] Returns an array of TypePrestation objects
     //  */

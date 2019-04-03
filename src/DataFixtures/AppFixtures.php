@@ -10,12 +10,11 @@
  */
 
 namespace App\DataFixtures;
-
-use App\Entity\Localisation;
-use App\Entity\Metier;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Entity\TypePrestation;
+use App\Entity\Etat;
+use App\Entity\Localisation;
+use App\Entity\Metier;use App\Entity\TypePrestation;
 use App\Entity\TypeEvenement;
 
 class AppFixtures extends Fixture
@@ -48,7 +47,14 @@ class AppFixtures extends Fixture
         yield ['11 avenue du parc aux biches, 91000, Evry-Courcouronnes, France'];
         
     }
-
+    private function loadEtats(ObjectManager $manager)
+    {
+        for($i=0;$i<Etat::getMax();$i++) {
+            $etat = new Etat();
+            $etat->setCurrent($i);
+            $manager->persist($etat);
+        }
+    }
     private function loadMetier(ObjectManager $manager)
     {
         foreach ($this->getMetierData() as [$nom_metier]) {

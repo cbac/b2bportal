@@ -1,20 +1,22 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Prestation;
-
+use App\Repository\EtatRepository;
 
 /**
+ *
  * @ORM\Entity(repositoryClass="App\Repository\EvenementRepository")
  *
  */
 class Evenement
 {
+
     /**
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -22,38 +24,45 @@ class Evenement
     private $id;
 
     /**
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
+     *
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $date;
 
     /**
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Prestation", mappedBy="evenement", orphanRemoval=true)
      */
     private $prestations;
 
     /**
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="evenements")
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;
 
     /**
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Localisation", inversedBy="evenements")
      */
     private $localisation;
 
     /**
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Etat")
      * @ORM\JoinColumn(nullable=false)
      */
     private $etat;
 
     /**
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\TypeEvenement")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -63,7 +72,6 @@ class Evenement
     {
         $this->prestations = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -82,7 +90,7 @@ class Evenement
         return $this;
     }
 
-    public function getDate(): ? \DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
@@ -95,6 +103,7 @@ class Evenement
     }
 
     /**
+     *
      * @return Collection|Prestation[]
      */
     public function getPrestations(): Collection
@@ -104,7 +113,7 @@ class Evenement
 
     public function addPrestation(Prestation $prestation): self
     {
-        if (!$this->prestations->contains($prestation)) {
+        if (! $this->prestations->contains($prestation)) {
             $this->prestations[] = $prestation;
             $prestation->setEvenement($this);
         }
@@ -136,7 +145,9 @@ class Evenement
 
         return $this;
     }
-    public function __toString():string {
+
+    public function __toString(): string
+    {
         return $this->nom;
     }
 
@@ -163,29 +174,48 @@ class Evenement
 
         return $this;
     }
+
     /**
      * Relay function to modify Evenement status
+     *
      * @return int
      */
-    public function next() : int
+    public function next(EtatRepository $etatRepository): int
     {
-        $minPrestations = Etat::getMax();
-        foreach ($this->prestations as $prestation) {
-            if($prestation->getEtat()->getCurrent() < $minPrestations){
-                $minPrestations = $prestation->getEtat()->getCurrent();
-            }
+        if ($this->etat == null) {
+            $next = $etatRepository->findOneBy([
+                'current' => 0
+            ]);
+            $this->etat = $next;
         }
+        $minPrestations = Etat::getMax();
+        if (count($this->prestations) > 0) {
+            foreach ($this->prestations as $prestation) {
+                if ($prestation->getEtat()->getCurrent() < $minPrestations) {
+                    $minPrestations = $prestation->getEtat()->getCurrent();
+                }
+            }
+        } else {
+            // no prestation is associated to this event
+            return 0;
+        }
+
         $myCurrent = $this->etat->getCurrent();
-        if($minPrestations > $myCurrent) {
-            // try to change the evenement status
-            return $this->etat->next();
+        $next = new Etat();
+        if ($minPrestations > $myCurrent) {
+            $next = $etatRepository->findOneBy([
+                'current' => $minPrestations
+            ]);
+            $this->etat = $next;
         }
         return $myCurrent;
     }
-    public function getCurrent():string
+
+    public function getCurrent(): string
     {
         return $this->etat->getCurrent();
     }
+
     public function getTypeEvenement(): ?TypeEvenement
     {
         return $this->typeEvenement;
