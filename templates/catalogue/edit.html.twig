@@ -9,4 +9,6 @@
     {{ include('partenaire/_delete_catalogue_form.html.twig', {'partenaire':catalogue.partenaire, 'cat_entry': catalogue}) }}
     {{ include('_edit_button.html.twig', {'action_path':'partenaire_edit','label':'Editer le partenaire',
                 'id_value': catalogue.partenaire.id}) }}
+    {{ include('_list_button.html.twig', {'action_path':'catalogue_index','label':'Catalogue des partenaires'}) }}
+                
 {% endblock %}

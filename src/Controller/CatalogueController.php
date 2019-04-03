@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Catalogue;
-use App\Form\Catalogue1Type;
+use App\Form\CatalogueType;
 use App\Repository\CatalogueRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,29 +26,6 @@ class CatalogueController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="catalogue_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $catalogue = new Catalogue();
-        $form = $this->createForm(Catalogue1Type::class, $catalogue);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($catalogue);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('catalogue_index');
-        }
-
-        return $this->render('catalogue/new.html.twig', [
-            'catalogue' => $catalogue,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="catalogue_show", methods={"GET"})
      */
     public function show(Catalogue $catalogue): Response
@@ -63,7 +40,7 @@ class CatalogueController extends AbstractController
      */
     public function edit(Request $request, Catalogue $catalogue): Response
     {
-        $form = $this->createForm(Catalogue1Type::class, $catalogue);
+        $form = $this->createForm(CatalogueType::class, $catalogue);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
