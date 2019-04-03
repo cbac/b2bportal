@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Catalogue;
+use App\Entity\Etat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -16,7 +16,7 @@ class EtatRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Catalogue::class);
+        parent::__construct($registry, Etat::class);
     }
 
     // /**

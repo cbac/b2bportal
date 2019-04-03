@@ -21,10 +21,7 @@ class AddPartenaireMetierType extends AbstractType
             // looks for choice from this entity
             'class' => Metier::class,
             // uses the nom property as the visible option string
-            'choice_label' => 'nom',
-            // used to render a select box, check boxes or radios
-            //'multiple' => true,
-            // 'expanded' => true,
+            'choice_label' => 'nom'
         ]);
     }
     /**
@@ -38,7 +35,7 @@ class AddPartenaireMetierType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' =>PartenaireMetier::class,
+            'data_class' => PartenaireMetier::class,
         ]);
     }
 

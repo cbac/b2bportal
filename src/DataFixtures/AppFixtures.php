@@ -24,6 +24,7 @@ class AppFixtures extends Fixture
         $this->loadLocalisation($manager);
         $this->loadMetier($manager);
         $this->loadTypePrestation($manager);
+        $this->loadEtats($manager);
         $manager->flush();
         
         $this->loadTypeEvenement($manager);
@@ -121,4 +122,5 @@ class AppFixtures extends Fixture
         yield ['Mariage', 'Mariage'];
         yield ['Anniversaire', 'Anniversaire'];
     }
+    
 }

@@ -2,10 +2,13 @@
 
 namespace App\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Etat;
 use App\Entity\Prestation;
+use App\Entity\TypePrestation;
 
 class PrestationType extends AbstractType
 {
@@ -14,9 +17,12 @@ class PrestationType extends AbstractType
         $builder
             ->add('dateDebut')
             ->add('dateFin')
-            ->add('typePrestation')
-            ->add('parent')
-            ->add('etat')
+            ->add('typePrestation', EntityType::class, [
+                'class'=> TypePrestation::class
+            ])
+            ->add('etat', EntityType::class, [
+              'class' => Etat::class
+            ])
             ->add('evenement')
             ->add('partenaire')
         ;

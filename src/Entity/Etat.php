@@ -4,7 +4,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Etat
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\EtatRepository")
  */
 class Etat {
     const myStatus = array(
@@ -26,10 +26,15 @@ class Etat {
     /**
      * @ORM\Column(type="integer")
      */
-    private $current = 0;
+    private $current;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $value;
     
     public function __construct(){
         $this->current = 0;
+        $this->value = self::myStatus[0];
     }
     public static function getMax(){
         return count(self::myStatus);
@@ -37,12 +42,22 @@ class Etat {
     public function getCurrent():int {
         return $this->current;
     }
-    public function setCurrent(int $newVal) : int{
+    public function setCurrent(int $newVal) : int
+    {
         $old = $this->current;
         $this->current = $newVal;
+        $this->setValue(self::myStatus[$newVal]);
         return $old;
     }
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+    public function setValue(string $val) : ? string
+    {
+        return $this->value = $val;
+    }
     public function __toString(){
-        return self::myStatus[$this->current];
+        return $this->value;
     }
 }

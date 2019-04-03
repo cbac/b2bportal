@@ -44,7 +44,7 @@ class Prestation
     /**
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Evenement", inversedBy="prestations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="etat_id", referencedColumnName="id", nullable=false)
      */
     private $evenement;
 
